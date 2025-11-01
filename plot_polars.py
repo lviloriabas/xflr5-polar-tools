@@ -1,7 +1,5 @@
-from pathlib import Path
 import matplotlib.pyplot as plt
 from polars_reader import list_polar_files, parse_polar_file
-import numpy as np
 
 
 def _match_re(filename, target_re):
@@ -61,27 +59,30 @@ def plot_polars(
         ax4.plot(df["alpha"], df["Cl_Cd"], label=label)
 
     # Use Greek alpha symbol and subscripts for coefficients
-    ax1.set_xlabel(r"$\alpha$ (deg)")
-    ax1.set_ylabel(r"$C_l$")
+    ax1.set_xlabel(r"$\alpha$ (deg)", fontsize=18)
+    ax1.set_ylabel(r"$C_l$", fontsize=18)
+    ax1.tick_params(axis="both", labelsize=16)
     ax1.grid(True, alpha=0.3)
     ax1.axhline(y=0, color="gray", linewidth=1.0, alpha=0.6, zorder=1)
     ax1.axvline(x=0, color="gray", linewidth=1.0, alpha=0.6, zorder=1)
-    ax1.legend(fontsize="small")
 
-    ax2.set_xlabel(r"$\alpha$ (deg)")
-    ax2.set_ylabel(r"$C_m$")
+    ax2.set_xlabel(r"$\alpha$ (deg)", fontsize=18)
+    ax2.set_ylabel(r"$C_m$", fontsize=18)
+    ax2.tick_params(axis="both", labelsize=16)
     ax2.grid(True, alpha=0.3)
     ax2.axhline(y=0, color="gray", linewidth=1.0, alpha=0.6, zorder=1)
     ax2.axvline(x=0, color="gray", linewidth=1.0, alpha=0.6, zorder=1)
 
-    ax3.set_xlabel(r"$C_l$")
-    ax3.set_ylabel(r"$C_d$")
+    ax3.set_xlabel(r"$C_l$", fontsize=18)
+    ax3.set_ylabel(r"$C_d$", fontsize=18)
+    ax3.tick_params(axis="both", labelsize=16)
     ax3.grid(True, alpha=0.3)
     ax3.axhline(y=0, color="gray", linewidth=1.0, alpha=0.6, zorder=1)
     ax3.axvline(x=0, color="gray", linewidth=1.0, alpha=0.6, zorder=1)
 
-    ax4.set_xlabel(r"$\alpha$ (deg)")
-    ax4.set_ylabel(r"$C_l/C_d$")
+    ax4.set_xlabel(r"$\alpha$ (deg)", fontsize=18)
+    ax4.set_ylabel(r"$C_l/C_d$", fontsize=18)
+    ax4.tick_params(axis="both", labelsize=16)
     ax4.grid(True, alpha=0.3)
     ax4.axhline(y=0, color="gray", linewidth=1.0, alpha=0.6, zorder=1)
     ax4.axvline(x=0, color="gray", linewidth=1.0, alpha=0.6, zorder=1)
@@ -89,12 +90,24 @@ def plot_polars(
     # Add overall title with Reynolds number if available
     if re_display:
         fig.suptitle(
-            f"Simulaciones de perfiles a Re={re_display}", fontsize=14, y=0.995
+            f"Simulaciones de perfiles a Re = {re_display}",
+            fontsize=20,
+            y=0.98,
         )
 
-    fig.tight_layout()
+    # Add legend outside the plot area
+    handles, labels = ax1.get_legend_handles_labels()
+    fig.legend(
+        handles,
+        labels,
+        loc="center left",
+        bbox_to_anchor=(0.88, 0.5),
+        fontsize=14,
+    )
+
+    fig.tight_layout(rect=[0, 0, 0.88, 0.96])
     if out_path:
-        fig.savefig(out_path, dpi=300)
+        fig.savefig(out_path, dpi=300, bbox_inches="tight")
         print("Saved figure to", out_path)
     else:
         plt.show()
