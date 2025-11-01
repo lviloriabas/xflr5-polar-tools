@@ -1,0 +1,8 @@
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.pdf
+
+polars/
+__pycache__/
