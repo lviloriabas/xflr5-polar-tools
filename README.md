@@ -1,66 +1,98 @@
-# Resumen
+# Summary
 
-Colección de scripts para análisis de polares XFLR5.
+Collection of scripts for XFLR5 polar analysis.
 
-Archivos principales
+Main files
 
-- `polars_reader.py` : lectura y parsing de archivos en `polars/`.
-- `plot_polars.py` : genera una figura con 4 subplots (Cl vs alpha, Cm vs alpha, Cd vs Cl, Cl/Cd vs alpha).
-- `extract_extrema.py` : extrae mínimos y máximos por columna y valores cercanos a alfas pedidos.
-- `main.py` : CLI que permite ejecutar las funcionalidades.
+- `polars_reader.py`: reading and parsing files in `polars/`.
+- `plot_polars.py`: generates a figure with 4 subplots (Cl vs alpha, Cm vs alpha, Cd vs Cl, Cl/Cd vs alpha).
+- `extract_limits.py`: extracts minimum and maximum limits per column and values near requested alphas.
+- `main.py`: CLI that allows executing the functionalities.
 
-## Instalación
+## Installation
 
-Crear un entorno e instalar dependencias:
+Create an environment and install dependencies:
 
 ```powershell
 python -m pip install -r requirements.txt
 ```
 
-## Uso básico
+## Basic Usage
 
-### Listar los Reynolds disponibles:
+### List available Reynolds numbers
 
 ```powershell
-python main.py plot --list-re
+python main.py --list-re
 ```
 
-### Graficar polares
+### Plot polars
 
-**Ejemplo 1**: Graficar todos los perfiles a Re = 0.100
+**Example 1**: Plot all profiles at Re = 0.100
 
 ```powershell
 python main.py plot --re 0.100 --out polars_plot.png
 ```
 
-**Ejemplo 2**: Graficar solo perfiles específicos (NACA y CLARK YS) a Re = 0.100
+**Example 2**: Plot only specific profiles (NACA and CLARK YS) at Re = 0.100
 
 ```powershell
-python main.py plot --re 0.100 --profiles "NACA,CLARK YS" --out polares_seleccionados.png
+python main.py plot --re 0.100 --profiles "NACA,CLARK YS" --out selected_polars.png
 ```
 
-**Ejemplo 3**: Graficar solo perfiles MH a Re = 0.500
+**Example 3**: Plot only MH profiles at Re = 0.500
 
 ```powershell
-python main.py plot --re 0.500 --profiles "MH" --out polares_mh.png
+python main.py plot --re 0.500 --profiles "MH" --out mh_polars.png
 ```
 
-**Nota sobre selección de perfiles**: El parámetro `--profiles` acepta una lista separada por comas de nombres o subcadenas. El script buscará todos los archivos que contengan alguna de esas cadenas en su nombre. Por ejemplo:
+**Note on profile selection**: The `--profiles` parameter accepts a comma-separated list of names or substrings. The script will search for all files containing any of those strings in their name. For example:
 
-- `--profiles "NACA"` incluirá todos los perfiles NACA (NACA 0015, NACA 4408, etc.)
-- `--profiles "MH 16,MH 17"` incluirá solo MH 16 y MH 17
-- Sin especificar `--profiles` se grafican todos los perfiles disponibles
+- `--profiles "NACA"` will include all NACA profiles (NACA 0015, NACA 4408, etc.)
+- `--profiles "MH 16,MH 17"` will include only MH 16 and MH 17
+- Without specifying `--profiles`, all available profiles are plotted
 
-### Extraer datos extremos
+### Extract limits (minimum and maximum)
 
-Ejemplo: extraer mínimos/máximos y valores en alpha específicos
+**Example 1**: Extract limits from all profiles at Re = 0.688 and display in console
 
 ```powershell
-python main.py extract --re 0.100 --alphas 0,5,10
+python main.py limits --re 0.688
 ```
 
-## Notas
+**Example 2**: Extract limits and export to CSV for Excel
 
-- El parser intenta extraer las columnas `alpha`, `CL`, `CD`, `Cm` de los archivos de XFLR5.
-- Si algún archivo no se puede parsear correctamente será ignorado con un aviso.
-- Los filtros de Re funcionan buscando la cadena provista en el nombre del archivo (por ejemplo `0.100` coincide con archivos que contienen `Re0.100`).
+```powershell
+python main.py limits --re 0.688 --csv limits_Re0688.csv
+```
+
+**Example 3**: Extract limits sorted by Cl/Cd_max (descending) and export
+
+```powershell
+python main.py limits --re 0.688 --sort="-Cl/Cd_max" --csv sorted_limits.csv
+```
+
+The limits table includes:
+
+- `Cd_min` and the angle α where it occurs
+- `Cl_max` and the angle α where it occurs
+- `Cl/Cd_max` and the angle α where it occurs
+
+### Extract values at specific angles
+
+**Example 1**: Extract all coefficient values at α = 0°, 5° and 10° for CLARK profiles
+
+```powershell
+python main.py extract --re 0.688 --alphas="0,5,10" --profiles "CLARK"
+```
+
+**Example 2**: Extract and export to CSV
+
+```powershell
+python main.py extract --re 0.688 --alphas="0,5,10" --profiles "CLARK" --csv clark_values.csv
+```
+
+## Notes
+
+- The parser attempts to extract `alpha`, `CL`, `CD`, `Cm` columns from XFLR5 files.
+- If any file cannot be parsed correctly, it will be ignored with a warning.
+- Re filters work by searching for the provided string in the file name (e.g., `0.100` matches files containing `Re0.100`).

@@ -17,47 +17,49 @@ def _parse_alphas(s):
 
 
 def main():
-    p = argparse.ArgumentParser(
-        description="Herramientas para análisis de polares XFLR5"
-    )
+    p = argparse.ArgumentParser(description="Tools for XFLR5 polar analysis")
     p.add_argument(
         "action",
         choices=["plot", "extract", "limits"],
-        help="Funcionalidad a ejecutar",
+        help="Functionality to execute",
     )
     p.add_argument(
         "--profiles",
         "-p",
-        help="Perfiles a incluir (coma-separados, substring del nombre). Default: todos",
+        help="Profiles to include (comma-separated, substring of name). Default: all",
     )
     p.add_argument(
         "--re",
-        help="Filtro de Reynolds (ej: 0.100 ó Re0.100). Si no se especifica usa todos",
+        help="Reynolds filter (e.g.: 0.100 or Re0.100). If not specified, uses all",
     )
     p.add_argument(
         "--polars-dir",
         default=str(Path(__file__).parent / "polars"),
-        help="Directorio de polars",
+        help="Polars directory",
     )
-    p.add_argument("--out", "-o", help="Ruta de salida para figuras (plot)")
+    p.add_argument("--out", "-o", help="Output path for figures (plot)")
     p.add_argument(
         "--alphas",
-        help="Lista de alpha para extracción en 'extract' (comma-separated)",
+        help="List of alpha for extraction in 'extract' (comma-separated)",
     )
     p.add_argument(
         "--sort",
-        help="Ordenar tabla de limits por columna (ej: Cd_min, Cl_max, Cl/Cd_max). Use '-' para descendente (ej: -Cl/Cd_max)",
+        help="Sort limits table by column (e.g.: Cd_min, Cl_max, Cl/Cd_max). Use '-' for descending (e.g.: -Cl/Cd_max)",
+    )
+    p.add_argument(
+        "--csv",
+        help="CSV file path to export results (extract or limits)",
     )
     p.add_argument(
         "--list-re",
         action="store_true",
-        help="Listar valores de Re disponibles en polars",
+        help="List available Re values in polars",
     )
     args = p.parse_args()
 
     if args.list_re:
         vals = list_available_re(args.polars_dir)
-        print("Reynolds disponibles (aparecen en nombres de archivo):")
+        print("Available Reynolds (appearing in file names):")
         for v in vals:
             print(" -", v)
         return
@@ -77,9 +79,10 @@ def main():
 
     elif args.action == "extract":
         if not alphas:
-            print("Error: debe especificar --alphas para extract")
+            print("Error: must specify --alphas for extract")
             return
-        from extract_limites import extract_values
+        from extract_limits import extract_values
+        import pandas as pd
 
         res = extract_values(
             polars_dir=args.polars_dir,
@@ -87,12 +90,30 @@ def main():
             re_filter=args.re,
             alphas=alphas,
         )
-        import json
 
-        print(json.dumps(res, indent=2, ensure_ascii=False))
+        # Convert to DataFrame for easier CSV export
+        rows = []
+        for profile_name, data in res.items():
+            for alpha_key, values in data.items():
+                row = {
+                    "Profile": profile_name,
+                    "Alpha_target": alpha_key.replace("alpha_", ""),
+                }
+                row.update(values)
+                rows.append(row)
+
+        df_extract = pd.DataFrame(rows)
+
+        if args.csv:
+            df_extract.to_csv(args.csv, index=False, encoding="utf-8-sig")
+            print(f"Data exported to {args.csv}")
+        else:
+            import json
+
+            print(json.dumps(res, indent=2, ensure_ascii=False))
 
     elif args.action == "limits":
-        from extract_limites import extract_limits
+        from extract_limits import extract_limits
 
         df = extract_limits(
             polars_dir=args.polars_dir,
@@ -115,7 +136,11 @@ def main():
                     f"Warning: Column '{sort_col}' not found. Available columns: {', '.join(df.columns)}"
                 )
 
-        print(df.to_string(index=False))
+        if args.csv:
+            df.to_csv(args.csv, index=False, encoding="utf-8-sig")
+            print(f"Data exported to {args.csv}")
+        else:
+            print(df.to_string(index=False))
 
 
 if __name__ == "__main__":
