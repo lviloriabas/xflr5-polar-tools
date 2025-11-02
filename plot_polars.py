@@ -15,7 +15,7 @@ def plot_polars(
     profiles=None,
     re_filter=None,
     out_path=None,
-    figsize=(12, 10),
+    figsize=(16, 12),
 ):
     files = list_polar_files(polars_dir)
     # filter by profiles list if provided (list of names or substrings)
@@ -46,17 +46,142 @@ def plot_polars(
     fig, axs = plt.subplots(2, 2, figsize=figsize)
     ax1, ax2, ax3, ax4 = axs.flatten()
 
-    for f in files:
+    # Use only solid lines for better readability
+    linestyle = "-"
+
+    # Organized to maximize visual distinction between adjacent colors
+    colors = [
+        "#1f77b4",
+        "#ff7f0e",
+        "#2ca02c",
+        "#d62728",
+        "#9467bd",
+        "#8c564b",
+        "#e377c2",
+        "#bcbd22",
+        "#17becf",
+        "#aec7e8",
+        "#0000ff",
+        "#ff0000",
+        "#00ff00",
+        "#ff00ff",
+        "#00ffff",
+        "#800000",
+        "#008000",
+        "#000080",
+        "#800080",
+        "#008080",
+        "#c71585",
+        "#ff4500",
+        "#32cd32",
+        "#4169e1",
+        "#ff1493",
+        "#00ced1",
+        "#ff8c00",
+        "#9400d3",
+        "#00fa9a",
+        "#dc143c",
+        "#1e90ff",
+        "#ffd700",
+        "#adff2f",
+        "#ff69b4",
+        "#00bfff",
+        "#ff6347",
+        "#7b68ee",
+        "#00ff7f",
+        "#ff00bf",
+        "#20b2aa",
+        "#b22222",
+        "#228b22",
+        "#4682b4",
+        "#d2691e",
+        "#6a5acd",
+        "#db7093",
+        "#ff8c69",
+        "#7fff00",
+        "#6495ed",
+        "#dc1485",
+        "#3cb371",
+        "#8b008b",
+        "#cd5c5c",
+        "#4b0082",
+        "#f08080",
+        "#2e8b57",
+        "#ba55d3",
+        "#cd853f",
+        "#bc8f8f",
+        "#4169e1",
+        "#da70d6",
+        "#b8860b",
+        "#ee82ee",
+        "#d2b48c",
+        "#9370db",
+        "#f4a460",
+        "#dda0dd",
+        "#bdb76b",
+        "#8a2be2",
+        "#ff7f50",
+        "#9932cc",
+        "#ffa07a",
+        "#8b4513",
+        "#fa8072",
+        "#a0522d",
+        "#ff6eb4",
+        "#556b2f",
+        "#ff1c8d",
+        "#6b8e23",
+        "#c0c0c0",
+        "#e9967a",
+        "#8fbc8f",
+        "#f5deb3",
+        "#48d1cc",
+        "#c0d9af",
+    ]
+
+    for i, f in enumerate(files):
         parsed = parse_polar_file(f)
         df = parsed["df"]
         # Only use profile name in legend, no Reynolds
         label = parsed["name"]
         if df is None or df.empty:
             continue
-        ax1.plot(df["alpha"], df["CL"], label=label)
-        ax2.plot(df["alpha"], df["Cm"], label=label)
-        ax3.plot(df["CL"], df["CD"], label=label)
-        ax4.plot(df["alpha"], df["Cl_Cd"], label=label)
+
+        # Cycle through colors only (solid lines for all)
+        color = colors[i % len(colors)]
+
+        # Plot with solid lines, no markers
+        ax1.plot(
+            df["alpha"],
+            df["CL"],
+            label=label,
+            color=color,
+            linestyle=linestyle,
+            linewidth=2.5,
+        )
+        ax2.plot(
+            df["alpha"],
+            df["Cm"],
+            label=label,
+            color=color,
+            linestyle=linestyle,
+            linewidth=2.5,
+        )
+        ax3.plot(
+            df["CL"],
+            df["CD"],
+            label=label,
+            color=color,
+            linestyle=linestyle,
+            linewidth=2.5,
+        )
+        ax4.plot(
+            df["alpha"],
+            df["Cl_Cd"],
+            label=label,
+            color=color,
+            linestyle=linestyle,
+            linewidth=2.5,
+        )
 
     # Use Greek alpha symbol and subscripts for coefficients
     ax1.set_xlabel(r"$\alpha$ (deg)", fontsize=18)
@@ -92,20 +217,21 @@ def plot_polars(
         fig.suptitle(
             f"Simulaciones de perfiles a Re = {re_display}",
             fontsize=20,
-            y=0.98,
+            y=0.99,
         )
 
-    # Add legend outside the plot area
+    # Add legend outside the plot area on the right
     handles, labels = ax1.get_legend_handles_labels()
     fig.legend(
         handles,
         labels,
         loc="center left",
-        bbox_to_anchor=(0.88, 0.5),
-        fontsize=14,
+        bbox_to_anchor=(0.91, 0.5),
+        fontsize=13,
     )
 
-    fig.tight_layout(rect=[0, 0, 0.88, 0.96])
+    # Adjust layout to maximize plot area while keeping space for legend
+    fig.tight_layout(rect=[0, 0, 0.90, 0.97])
     if out_path:
         fig.savefig(out_path, dpi=300, bbox_inches="tight")
         print("Saved figure to", out_path)

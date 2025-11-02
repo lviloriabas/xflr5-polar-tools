@@ -1,3 +1,9 @@
-pandas
-matplotlib
-numpy
+# Core dependencies for xflr5-polar-tools
+# Data manipulation and analysis
+pandas>=2.0.0
+
+# Plotting and visualization
+matplotlib>=3.7.0
+
+# Numerical computations
+numpy>=1.24.0

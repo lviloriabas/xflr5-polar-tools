@@ -71,11 +71,18 @@ python main.py limits --re 0.688 --csv limits_Re0688.csv
 python main.py limits --re 0.688 --sort="-Cl/Cd_max" --csv sorted_limits.csv
 ```
 
+**Example 4**: Extract limits sorted by lift slope (Cl_alpha) descending
+
+```powershell
+python main.py limits --re 0.688 --sort="-Cl_alpha"
+```
+
 The limits table includes:
 
-- `Cd_min` and the angle α where it occurs
-- `Cl_max` and the angle α where it occurs
-- `Cl/Cd_max` and the angle α where it occurs
+- `Cl_alpha`: Lift slope (dCl/dα) in the linear region, calculated from -2° to 5° (per radian)
+- `Cd_min` and `α @ Cd_min` (angle where it occurs)
+- `Cl_max` and `α @ Cl_max` (angle where it occurs)
+- `Cl/Cd_max` and `α @ Cl/Cd_max` (angle where it occurs)
 
 ### Extract values at specific angles
 
