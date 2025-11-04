@@ -3,6 +3,9 @@
 *.jpeg
 *.gif
 *.pdf
+*.csv
 
 polars/
 __pycache__/
+
+.mypy_cache/

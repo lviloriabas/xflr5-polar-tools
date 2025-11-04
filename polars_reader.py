@@ -1,7 +1,8 @@
 import re
 from pathlib import Path
-import pandas as pd
+
 import numpy as np
+import pandas as pd
 
 POLARS_DIR = Path(__file__).parent / "polars"
 
@@ -69,7 +70,7 @@ def parse_polar_file(path):
             for t in toks:
                 try:
                     numtoks.append(float(t))
-                except:
+                except (ValueError, TypeError):
                     pass
             if len(numtoks) >= 5:
                 # alpha, CL, CD, CDp, Cm
@@ -86,7 +87,7 @@ def parse_polar_file(path):
         try:
             df = pd.read_csv(
                 path,
-                delim_whitespace=True,
+                sep=r"\s+",
                 comment="%",
                 header=None,
                 engine="python",
@@ -113,7 +114,7 @@ def parse_polar_file(path):
                                 "Cm": cm,
                             }
                         )
-                    except:
+                    except (ValueError, TypeError, IndexError):
                         continue
         except Exception:
             pass
@@ -139,4 +140,5 @@ def list_available_re(polars_dir=None):
             p = parse_polar_file(f)
             if p["re"] is not None:
                 vals.add(str(p["re"]))
+    return sorted(vals)
     return sorted(vals)

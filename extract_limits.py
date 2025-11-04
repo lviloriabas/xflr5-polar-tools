@@ -95,10 +95,15 @@ def extract_limits(polars_dir=None, profiles=None, re_filter=None):
         else:
             cl_alpha = np.nan
 
+        # Find Cm at alpha = 0 degrees (nearest value)
+        idx_0 = (df["alpha"] - 0.0).abs().idxmin()
+        cm_0 = float(df.loc[idx_0, "Cm"])
+
         table_data.append(
             {
                 "Profile": name,
                 "Cl_alpha": cl_alpha,
+                "Cm_0": cm_0,
                 "Cd_min": cd_min,
                 "α @ Cd_min": alpha_cd_min,
                 "Cl_max": cl_max,

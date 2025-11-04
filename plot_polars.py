@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+
 from polars_reader import list_polar_files, parse_polar_file
 
 
@@ -46,97 +47,30 @@ def plot_polars(
     fig, axs = plt.subplots(2, 2, figsize=figsize)
     ax1, ax2, ax3, ax4 = axs.flatten()
 
+    # Count profiles for title
+    num_profiles = len(files)
+
     # Use only solid lines for better readability
     linestyle = "-"
 
-    # Organized to maximize visual distinction between adjacent colors
-    colors = [
-        "#1f77b4",
-        "#ff7f0e",
-        "#2ca02c",
-        "#d62728",
-        "#9467bd",
-        "#8c564b",
-        "#e377c2",
-        "#bcbd22",
-        "#17becf",
-        "#aec7e8",
-        "#0000ff",
-        "#ff0000",
-        "#00ff00",
-        "#ff00ff",
-        "#00ffff",
-        "#800000",
-        "#008000",
-        "#000080",
-        "#800080",
-        "#008080",
-        "#c71585",
-        "#ff4500",
-        "#32cd32",
-        "#4169e1",
-        "#ff1493",
-        "#00ced1",
-        "#ff8c00",
-        "#9400d3",
-        "#00fa9a",
-        "#dc143c",
-        "#1e90ff",
-        "#ffd700",
-        "#adff2f",
-        "#ff69b4",
-        "#00bfff",
-        "#ff6347",
-        "#7b68ee",
-        "#00ff7f",
-        "#ff00bf",
-        "#20b2aa",
-        "#b22222",
-        "#228b22",
-        "#4682b4",
-        "#d2691e",
-        "#6a5acd",
-        "#db7093",
-        "#ff8c69",
-        "#7fff00",
-        "#6495ed",
-        "#dc1485",
-        "#3cb371",
-        "#8b008b",
-        "#cd5c5c",
-        "#4b0082",
-        "#f08080",
-        "#2e8b57",
-        "#ba55d3",
-        "#cd853f",
-        "#bc8f8f",
-        "#4169e1",
-        "#da70d6",
-        "#b8860b",
-        "#ee82ee",
-        "#d2b48c",
-        "#9370db",
-        "#f4a460",
-        "#dda0dd",
-        "#bdb76b",
-        "#8a2be2",
-        "#ff7f50",
-        "#9932cc",
-        "#ffa07a",
-        "#8b4513",
-        "#fa8072",
-        "#a0522d",
-        "#ff6eb4",
-        "#556b2f",
-        "#ff1c8d",
-        "#6b8e23",
-        "#c0c0c0",
-        "#e9967a",
-        "#8fbc8f",
-        "#f5deb3",
-        "#48d1cc",
-        "#c0d9af",
-    ]
+    # Generate colors dynamically using matplotlib colormaps
+    # Use tab20 + Dark2 + Set1 for distinct, saturated colors
+    # Avoids light colors like yellow that don't show well
+    import matplotlib.cm as cm
+
+    # Get qualitative colormaps with saturated colors
+    tab20_cmap = cm.get_cmap("tab20")
+    dark2_cmap = cm.get_cmap("Dark2")
+    set1_cmap = cm.get_cmap("Set1")
+
+    # Sample colors from each colormap
+    tab20_colors = [tab20_cmap(i) for i in range(20)]
+    dark2_colors = [dark2_cmap(i / 8) for i in range(8)]
+    set1_colors = [set1_cmap(i / 9) for i in range(9)]
+
+    # Combine all colors - total 37 distinct colors
+    all_colors = tab20_colors + dark2_colors + set1_colors
+    colors = [all_colors[i % len(all_colors)] for i in range(num_profiles)]
 
     for i, f in enumerate(files):
         parsed = parse_polar_file(f)
@@ -212,10 +146,16 @@ def plot_polars(
     ax4.axhline(y=0, color="gray", linewidth=1.0, alpha=0.6, zorder=1)
     ax4.axvline(x=0, color="gray", linewidth=1.0, alpha=0.6, zorder=1)
 
-    # Add overall title with Reynolds number if available
+    # Add overall title with Reynolds number and profile count
     if re_display:
         fig.suptitle(
-            f"Simulaciones de perfiles a Re = {re_display}",
+            f"Simulaciones de {num_profiles} perfiles a Re = {re_display}",
+            fontsize=20,
+            y=0.99,
+        )
+    else:
+        fig.suptitle(
+            f"Simulaciones de {num_profiles} perfiles",
             fontsize=20,
             y=0.99,
         )
@@ -241,4 +181,5 @@ def plot_polars(
 
 if __name__ == "__main__":
     # quick manual demo when running module directly
+    plot_polars()
     plot_polars()

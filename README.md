@@ -80,6 +80,7 @@ python main.py limits --re 0.688 --sort="-Cl_alpha"
 The limits table includes:
 
 - `Cl_alpha`: Lift slope (dCl/dα) in the linear region, calculated from -2° to 5° (per radian)
+- `Cm_0`: Pitching moment coefficient at α = 0° (important for longitudinal stability)
 - `Cd_min` and `α @ Cd_min` (angle where it occurs)
 - `Cl_max` and `α @ Cl_max` (angle where it occurs)
 - `Cl/Cd_max` and `α @ Cl/Cd_max` (angle where it occurs)
