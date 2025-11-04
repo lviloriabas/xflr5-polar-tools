@@ -1,11 +1,10 @@
-from polars_reader import list_polar_files, parse_polar_file
 import numpy as np
 import pandas as pd
 
+from polars_reader import list_polar_files, parse_polar_file
 
-def extract_values(
-    polars_dir=None, profiles=None, re_filter=None, alphas=None
-):
+
+def extract_values(polars_dir=None, profiles=None, re_filter=None, alphas=None):
     """Extract coefficient values at specific angles of attack."""
     files = list_polar_files(polars_dir)
     if profiles:
@@ -35,8 +34,7 @@ def extract_values(
                 rec = df.loc[idx].to_dict()
                 # convert numpy types
                 row[f"alpha_{a}"] = {
-                    k: (float(v) if np.isscalar(v) else v)
-                    for k, v in rec.items()
+                    k: (float(v) if np.isscalar(v) else v) for k, v in rec.items()
                 }
         results[name] = row
     return results
@@ -69,11 +67,13 @@ def extract_limits(polars_dir=None, profiles=None, re_filter=None):
         cd_min_idx = df["CD"].idxmin()
         cd_min = float(df.loc[cd_min_idx, "CD"])
         alpha_cd_min = float(df.loc[cd_min_idx, "alpha"])
+        cl_ideal = float(df.loc[cd_min_idx, "CL"])  # Cl at Cd_min (ideal Cl)
 
         # Find CL max
         cl_max_idx = df["CL"].idxmax()
         cl_max = float(df.loc[cl_max_idx, "CL"])
         alpha_cl_max = float(df.loc[cl_max_idx, "alpha"])
+        cd_at_cl_max = float(df.loc[cl_max_idx, "CD"])
 
         # Find Cl/Cd max
         clcd_max_idx = df["Cl_Cd"].idxmax()
@@ -106,8 +106,10 @@ def extract_limits(polars_dir=None, profiles=None, re_filter=None):
                 "Cm_0": cm_0,
                 "Cd_min": cd_min,
                 "α @ Cd_min": alpha_cd_min,
+                "Cl @ Cd_min": cl_ideal,
                 "Cl_max": cl_max,
                 "α @ Cl_max": alpha_cl_max,
+                "Cd @ Cl_max": cd_at_cl_max,
                 "Cl/Cd_max": clcd_max,
                 "α @ Cl/Cd_max": alpha_clcd_max,
             }
