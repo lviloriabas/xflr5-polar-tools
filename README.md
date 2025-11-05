@@ -103,17 +103,18 @@ python main.py limits --re 0.688 --sort="-Cl/Cd_max" --csv sorted_limits.csv
 **Example 4**: Extract limits sorted by lift slope (Cl_alpha) descending
 
 ```powershell
-python main.py limits --re 0.688 --sort="-Cl_alpha"
+python main.py limits --re 0.688 --sort="-Cl_alpha (rad⁻¹)"
 ```
 
 The limits table includes:
 
-- `Cl_alpha`: Lift slope (dCl/dα) in the linear region, calculated from -2° to 5° (per radian)
+- `Cl_alpha (deg⁻¹)`: Lift slope (dCl/dα) per degree in the linear region, calculated from -2° to 5°
+- `Cl_alpha (rad⁻¹)`: Lift slope (dCl/dα) per radian in the linear region, calculated from -2° to 5°
 - `Cm_0`: Pitching moment coefficient at α = 0° (important for longitudinal stability)
-- `Cd_min` and `α @ Cd_min` (angle at minimum drag, where Cl_ideal occurs)
+- `Cd_min` and `α @ Cd_min (deg)`: Minimum drag coefficient and angle where it occurs (where Cl_ideal occurs)
 - `Cl @ Cd_min`: Lift coefficient at minimum drag (also known as Cl_ideal, the optimal cruise Cl)
-- `Cl_max`, `α @ Cl_max` (angle where it occurs), and `Cd @ Cl_max` (drag coefficient at maximum lift)
-- `Cl/Cd_max` and `α @ Cl/Cd_max` (angle where it occurs)
+- `Cl_max`, `α @ Cl_max (deg)` and `Cd @ Cl_max`: Maximum lift coefficient, angle where it occurs, and drag at maximum lift
+- `Cl/Cd_max` and `α @ Cl/Cd_max (deg)`: Maximum lift-to-drag ratio and angle where it occurs
 
 ### Extract values at specific angles
 
@@ -149,29 +150,30 @@ python main.py filter --re <reynolds> --filter "parameter operator value" [optio
 
 You can filter by any column from the limits table:
 
-| Parameter       | Description                            | Typical Range | Use Case                                 |
-| --------------- | -------------------------------------- | ------------- | ---------------------------------------- |
-| `Cl_alpha`      | Lift slope (dCl/dα) in per radian      | 5.0 - 8.0     | High sensitivity to angle changes        |
-| `Cm_0`          | Pitching moment at α=0°                | -0.3 to 0.1   | Longitudinal stability (near 0 = stable) |
-| `Cd_min`        | Minimum drag coefficient               | 0.004 - 0.015 | Low-drag profiles for cruise             |
-| `α @ Cd_min`    | Angle at minimum drag (where Cl_ideal) | -2° to 5°     | Optimal cruise angle                     |
-| `Cl @ Cd_min`   | Cl at minimum drag (Cl_ideal)          | 0.2 - 1.5     | Optimal cruise lift coefficient          |
-| `Cl_max`        | Maximum lift coefficient               | 0.8 - 2.5     | High-lift capability for takeoff/landing |
-| `Cd @ Cl_max`   | Drag at maximum lift                   | 0.01 - 0.35   | Drag penalty at high angles of attack    |
-| `Cl/Cd_max`     | Maximum lift-to-drag ratio             | 50 - 200      | Overall aerodynamic efficiency           |
-| `α @ Cl_max`    | Angle at maximum lift                  | 8° to 25°     | Stall angle                              |
-| `α @ Cl/Cd_max` | Angle at best efficiency               | 2° to 8°      | Optimal operating angle                  |
+| Parameter             | Description                            | Typical Range | Use Case                                 |
+| --------------------- | -------------------------------------- | ------------- | ---------------------------------------- |
+| `Cl_alpha (deg⁻¹)`    | Lift slope (dCl/dα) per degree         | 0.09 - 0.14   | High sensitivity to angle changes        |
+| `Cl_alpha (rad⁻¹)`    | Lift slope (dCl/dα) per radian         | 5.0 - 8.0     | High sensitivity to angle changes        |
+| `Cm_0`                | Pitching moment at α=0°                | -0.3 to 0.1   | Longitudinal stability (near 0 = stable) |
+| `Cd_min`              | Minimum drag coefficient               | 0.004 - 0.015 | Low-drag profiles for cruise             |
+| `α @ Cd_min (deg)`    | Angle at minimum drag (where Cl_ideal) | -2° to 5°     | Optimal cruise angle                     |
+| `Cl @ Cd_min`         | Cl at minimum drag (Cl_ideal)          | 0.2 - 1.5     | Optimal cruise lift coefficient          |
+| `Cl_max`              | Maximum lift coefficient               | 0.8 - 2.5     | High-lift capability for takeoff/landing |
+| `Cd @ Cl_max`         | Drag at maximum lift                   | 0.01 - 0.35   | Drag penalty at high angles of attack    |
+| `Cl/Cd_max`           | Maximum lift-to-drag ratio             | 50 - 200      | Overall aerodynamic efficiency           |
+| `α @ Cl_max (deg)`    | Angle at maximum lift                  | 8° to 25°     | Stall angle                              |
+| `α @ Cl/Cd_max (deg)` | Angle at best efficiency               | 2° to 8°      | Optimal operating angle                  |
 
 #### Available Operators
 
-| Operator | Meaning               | Example             |
-| -------- | --------------------- | ------------------- |
-| `>`      | Greater than          | `"Cl/Cd_max > 100"` |
-| `>=`     | Greater than or equal | `"Cl_alpha >= 6.5"` |
-| `<`      | Less than             | `"Cd_min < 0.006"`  |
-| `<=`     | Less than or equal    | `"Cm_0 <= -0.05"`   |
-| `==`     | Equal to              | `"Cl_max == 1.5"`   |
-| `!=`     | Not equal to          | `"Cd_min != 0.01"`  |
+| Operator | Meaning               | Example                      |
+| -------- | --------------------- | ---------------------------- |
+| `>`      | Greater than          | `"Cl/Cd_max > 100"`          |
+| `>=`     | Greater than or equal | `"Cl_alpha (rad⁻¹) >= 6.5"`  |
+| `<`      | Less than             | `"Cd_min < 0.006"`           |
+| `<=`     | Less than or equal    | `"Cm_0 <= -0.05"`            |
+| `==`     | Equal to              | `"Cl_max == 1.5"`            |
+| `!=`     | Not equal to          | `"α @ Cl_max (deg) != 10.0"` |
 
 #### Detailed Examples
 
@@ -196,7 +198,7 @@ python main.py filter --re 0.688 --filter "Cd_min < 0.006" --filter "Cl_max > 1.
 Find profiles with high lift slope and stable pitching moment for low-speed operations:
 
 ```powershell
-python main.py filter --re 0.100 --filter "Cl_alpha > 6.0" --filter "Cm_0 > -0.05" --csv low_speed_profiles.csv
+python main.py filter --re 0.100 --filter "Cl_alpha (rad⁻¹) > 6.0" --filter "Cm_0 > -0.05" --csv low_speed_profiles.csv
 ```
 
 **Example 4**: Moment-stable profiles sorted by efficiency
@@ -228,7 +230,7 @@ python main.py filter --re 0.688 --profiles "MH" --filter "Cl/Cd_max > 120" --fi
 Find profiles with a specific combination of characteristics:
 
 ```powershell
-python main.py filter --re 0.688 --filter "Cl_alpha > 7.0" --filter "Cd_min < 0.006" --filter "Cl/Cd_max > 100" --filter "Cm_0 > -0.05" --sort="-Cl/Cd_max" --csv selected_profiles.csv
+python main.py filter --re 0.688 --filter "Cl_alpha (rad⁻¹) > 7.0" --filter "Cd_min < 0.006" --filter "Cl/Cd_max > 100" --filter "Cm_0 > -0.05" --sort="-Cl/Cd_max" --csv selected_profiles.csv
 ```
 
 **Example 8**: Profiles with specific angle characteristics
@@ -236,7 +238,7 @@ python main.py filter --re 0.688 --filter "Cl_alpha > 7.0" --filter "Cd_min < 0.
 Find profiles that reach maximum efficiency at low angles:
 
 ```powershell
-python main.py filter --re 0.688 --filter "Cl/Cd_max > 120" --filter "α @ Cl/Cd_max < 4.0"
+python main.py filter --re 0.688 --filter "Cl/Cd_max > 120" --filter "α @ Cl/Cd_max (deg) < 4.0"
 ```
 
 **Example 8b**: Profiles optimized for specific cruise angle
@@ -244,7 +246,7 @@ python main.py filter --re 0.688 --filter "Cl/Cd_max > 120" --filter "α @ Cl/Cd
 Find profiles with Cl_ideal (optimal cruise Cl) at low angles of attack:
 
 ```powershell
-python main.py filter --re 0.688 --filter "Cl @ Cd_min > 0.4" --filter "α @ Cd_min < 2.0" --filter "Cl/Cd_max > 100"
+python main.py filter --re 0.688 --filter "Cl @ Cd_min > 0.4" --filter "α @ Cd_min (deg) < 2.0" --filter "Cl/Cd_max > 100"
 ```
 
 **Example 9**: High-lift profiles with controlled stall
@@ -252,7 +254,7 @@ python main.py filter --re 0.688 --filter "Cl @ Cd_min > 0.4" --filter "α @ Cd_
 Find profiles with high Cl_max but reasonable stall angle:
 
 ```powershell
-python main.py filter --re 0.500 --filter "Cl_max > 1.8" --filter "α @ Cl_max < 15.0"
+python main.py filter --re 0.500 --filter "Cl_max > 1.8" --filter "α @ Cl_max (deg) < 15.0"
 ```
 
 **Example 10**: Compare different Reynolds numbers
@@ -284,7 +286,7 @@ python main.py filter --re 0.688 --filter "Cl/Cd_max > 100" --filter "Cl_max > 1
 
 ```powershell
 # High lift slope, high Cl_max, low-speed Re
-python main.py filter --re 0.200 --filter "Cl_alpha > 6.5" --filter "Cl_max > 1.5" --filter "α @ Cl_max < 16.0"
+python main.py filter --re 0.200 --filter "Cl_alpha (rad⁻¹) > 6.5" --filter "Cl_max > 1.5" --filter "α @ Cl_max (deg) < 16.0"
 ```
 
 **4. Aerobatic Aircraft**
@@ -298,7 +300,7 @@ python main.py filter --re 0.625 --filter "Cm_0 >= -0.05" --filter "Cm_0 <= 0.05
 
 ```powershell
 # Very low drag, efficiency at low angles
-python main.py filter --re 1.000 --filter "Cd_min < 0.0055" --filter "α @ Cd_min < 2.0" --filter "Cl/Cd_max > 120"
+python main.py filter --re 1.000 --filter "Cd_min < 0.0055" --filter "α @ Cd_min (deg) < 2.0" --filter "Cl/Cd_max > 120"
 ```
 
 #### Tips and Best Practices
@@ -313,8 +315,8 @@ python main.py filter --re 1.000 --filter "Cd_min < 0.0055" --filter "α @ Cd_mi
 
 - **Efficiency**: Prioritize `Cl/Cd_max` and `Cd_min`
 - **Stability**: Monitor `Cm_0` (closer to zero = more stable)
-- **Operating Range**: Consider `α @ Cl/Cd_max` for typical flight angles
-- **Stall Behavior**: Check `α @ Cl_max` and `Cd @ Cl_max`
+- **Operating Range**: Consider `α @ Cl/Cd_max (deg)` for typical flight angles
+- **Stall Behavior**: Check `α @ Cl_max (deg)` and `Cd @ Cl_max`
 
 **Workflow Recommendations:**
 

@@ -87,13 +87,18 @@ def extract_limits(polars_dir=None, profiles=None, re_filter=None):
             # Linear regression: Cl = Cl_alpha * alpha + Cl_0
             alphas = linear_region["alpha"].values
             cls = linear_region["CL"].values
-            # Convert alpha from degrees to radians for the slope
+
+            # Calculate in degrees (alpha in degrees)
+            coeffs_deg = np.polyfit(alphas, cls, 1)
+            cl_alpha_deg = float(coeffs_deg[0])  # per degree
+
+            # Calculate in radians (alpha converted to radians)
             alphas_rad = np.deg2rad(alphas)
-            # Fit: Cl = a * alpha_rad + b
-            coeffs = np.polyfit(alphas_rad, cls, 1)
-            cl_alpha = float(coeffs[0])  # per radian
+            coeffs_rad = np.polyfit(alphas_rad, cls, 1)
+            cl_alpha_rad = float(coeffs_rad[0])  # per radian
         else:
-            cl_alpha = np.nan
+            cl_alpha_deg = np.nan
+            cl_alpha_rad = np.nan
 
         # Find Cm at alpha = 0 degrees (nearest value)
         idx_0 = (df["alpha"] - 0.0).abs().idxmin()
@@ -102,16 +107,17 @@ def extract_limits(polars_dir=None, profiles=None, re_filter=None):
         table_data.append(
             {
                 "Profile": name,
-                "Cl_alpha": cl_alpha,
+                "Cl_alpha (deg⁻¹)": cl_alpha_deg,
+                "Cl_alpha (rad⁻¹)": cl_alpha_rad,
                 "Cm_0": cm_0,
                 "Cd_min": cd_min,
-                "α @ Cd_min": alpha_cd_min,
+                "α @ Cd_min (deg)": alpha_cd_min,
                 "Cl @ Cd_min": cl_ideal,
                 "Cl_max": cl_max,
-                "α @ Cl_max": alpha_cl_max,
+                "α @ Cl_max (deg)": alpha_cl_max,
                 "Cd @ Cl_max": cd_at_cl_max,
                 "Cl/Cd_max": clcd_max,
-                "α @ Cl/Cd_max": alpha_clcd_max,
+                "α @ Cl/Cd_max (deg)": alpha_clcd_max,
             }
         )
 
