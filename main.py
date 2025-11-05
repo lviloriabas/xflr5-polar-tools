@@ -18,6 +18,67 @@ def _parse_alphas(s):
     return [float(p) for p in parts]
 
 
+def _parse_filter_criteria(filter_list):
+    """
+    Parse filter criteria from command line arguments.
+
+    Supports:
+    - Standard operators: >, >=, <, <=, ==, !=
+    - Between operator: "param between min,max"
+
+    Returns:
+    - criteria: dict with parsed criteria
+    - display: dict for display purposes (keeps original format)
+    """
+    if not filter_list:
+        return None, None
+
+    criteria = {}
+    display = {}
+    operators = {">", ">=", "<", "<=", "==", "!="}
+
+    for criterion in filter_list:
+        parsed = False
+
+        # Check for "between" operator
+        if " between " in criterion.lower():
+            parts = criterion.lower().split(" between ")
+            if len(parts) == 2:
+                param = parts[0].strip()
+                try:
+                    values = parts[1].strip().split(",")
+                    if len(values) == 2:
+                        min_val = float(values[0].strip())
+                        max_val = float(values[1].strip())
+                        criteria[param] = ("between", (min_val, max_val))
+                        display[param] = ("between", (min_val, max_val))
+                        parsed = True
+                except ValueError:
+                    pass
+
+        # Check for standard operators
+        if not parsed:
+            for op in sorted(operators, key=len, reverse=True):
+                if op in criterion:
+                    parts = criterion.split(op, 1)
+                    if len(parts) == 2:
+                        param = parts[0].strip()
+                        try:
+                            value = float(parts[1].strip())
+                            criteria[param] = (op, value)
+                            display[param] = (op, value)
+                            parsed = True
+                            break
+                        except ValueError:
+                            continue
+
+        if not parsed:
+            print(f"Warning: Could not parse criterion: {criterion}")
+            print("Format: 'parameter operator value' or 'parameter between min,max'")
+
+    return criteria if criteria else None, display if display else None
+
+
 def main():
     p = argparse.ArgumentParser(description="Tools for XFLR5 polar analysis")
     p.add_argument(
@@ -79,21 +140,31 @@ def main():
     if args.action == "plot":
         from plot_polars import plot_polars
 
+        # Parse filter criteria if provided
+        filter_criteria, filter_display = _parse_filter_criteria(args.filter)
+
         plot_polars(
             polars_dir=args.polars_dir,
             profiles=profiles,
             re_filter=args.re,
             out_path=args.out,
+            filter_criteria=filter_criteria,
+            filter_display=filter_display,
         )
 
     elif args.action == "plot-clmax-cli":
         from plot_polars import plot_clmax_vs_clideal
+
+        # Parse filter criteria if provided
+        filter_criteria, filter_display = _parse_filter_criteria(args.filter)
 
         plot_clmax_vs_clideal(
             polars_dir=args.polars_dir,
             profiles=profiles,
             re_filter=args.re,
             out_path=args.out,
+            filter_criteria=filter_criteria,
+            filter_display=filter_display,
         )
 
     elif args.action == "extract":
@@ -166,31 +237,11 @@ def main():
         if not args.filter:
             print("Error: --filter criteria required for 'filter' action.")
             print("Example: --filter 'Cl/Cd_max > 100' --filter 'Cd_min < 0.006'")
+            print("Example with between: --filter 'cl_i between 0.3,0.8'")
             return
 
         # Parse filter criteria
-        criteria = {}
-        operators = {">", ">=", "<", "<=", "==", "!="}
-        for criterion in args.filter:
-            # Try to parse: "parameter operator value"
-            parsed = False
-            for op in sorted(operators, key=len, reverse=True):  # Check >= before >
-                if op in criterion:
-                    parts = criterion.split(op, 1)
-                    if len(parts) == 2:
-                        param = parts[0].strip()
-                        try:
-                            value = float(parts[1].strip())
-                            criteria[param] = (op, value)
-                            parsed = True
-                            break
-                        except ValueError:
-                            continue
-            if not parsed:
-                print(f"Warning: Could not parse criterion: {criterion}")
-                print(
-                    "Format should be: 'parameter operator value' (e.g., 'Cl/Cd_max > 100')"
-                )
+        criteria, _ = _parse_filter_criteria(args.filter)
 
         if not criteria:
             print("Error: No valid filter criteria parsed.")

@@ -1,0 +1,1237 @@
+================================================================================
+AVAILABLE PROFILES AND REYNOLDS NUMBERS
+xflr5-polar-tools
+================================================================================
+
+This file lists all airfoil profiles and Reynolds numbers available in the
+'polars' directory. These are polar data files (.txt) calculated by xflr5.
+
+NOTE: Airfoil geometry files (.dat) are NOT included in this package.
+      Only pre-calculated polar data is provided.
+
+================================================================================
+
+SUMMARY
+--------------------------------------------------------------------------------
+Total unique profiles: 80
+Reynolds numbers available: 13
+Total polar files: 1040
+
+================================================================================
+
+REYNOLDS NUMBERS AVAILABLE
+--------------------------------------------------------------------------------
+
+  Re 0.100  (   0.100e6)  -   80 profiles
+  Re 0.130  (   0.130e6)  -   80 profiles
+  Re 0.160  (   0.160e6)  -   80 profiles
+  Re 0.200  (   0.200e6)  -   80 profiles
+  Re 0.300  (   0.300e6)  -   80 profiles
+  Re 0.400  (   0.400e6)  -   80 profiles
+  Re 0.450  (   0.450e6)  -   80 profiles
+  Re 0.500  (   0.500e6)  -   80 profiles
+  Re 0.563  (   0.563e6)  -   80 profiles
+  Re 0.625  (   0.625e6)  -   80 profiles
+  Re 0.688  (   0.688e6)  -   80 profiles
+  Re 0.719  (   0.719e6)  -   80 profiles
+  Re 1.000  (   0.000e6)  -   80 profiles
+
+================================================================================
+
+ALL AVAILABLE PROFILES (alphabetically)
+--------------------------------------------------------------------------------
+
+  1. AG24
+  2. AG35
+  3. Bergey BW-3  (smoothed)
+  4. CLARK YS
+  5. E178
+  6. E193  (10.22%)
+  7. E216  (10.4%)
+  8. E222  (10.17%)
+  9. E387
+ 10. E423
+ 11. E61  (5.64%)
+ 12. E64  (8.45%)
+ 13. E71  (5.15%)
+ 14. EPPLER 393 AIRFOIL
+ 15. EPPLER 420 AIRFOIL
+ 16. EPPLER 580 AIRFOIL
+ 17. EPPLER 654 AIRFOIL
+ 18. EPPLER E852 AIRFOIL
+ 19. EPPLER E854 AIRFOIL
+ 20. FX 60-100 (126) AIRFOIL
+ 21. FX 60-100 AIRFOIL
+ 22. FX 61-140 AIRFOIL
+ 23. GOE 398 AIRFOIL
+ 24. GOE 417 AIRFOIL
+ 25. LISSAMAN 7769 AIRFOIL
+ 26. MH 16
+ 27. MH 17
+ 28. MH 18
+ 29. MH 20
+ 30. MH 22
+ 31. MH 30
+ 32. MH 50
+ 33. MILEY M06-13-128
+ 34. NACA 0012-34
+ 35. NACA 0015
+ 36. NACA 23012  12%
+ 37. NACA 2412
+ 38. NACA 2415
+ 39. NACA 4408
+ 40. NACA 4412
+ 41. NACA 65(1)-212
+ 42. NACA 65(1)-212 a=0.6
+ 43. NACA 65(1)-412
+ 44. NACA 65-206
+ 45. NACA 65-209
+ 46. NACA 65-210
+ 47. NACA M19 AIRFOIL
+ 48. NACA M6 AIRFOIL
+ 49. NACA6409 9%
+ 50. NACA65-012
+ 51. NACA65-015
+ 52. NACA65413a=0.8
+ 53. NREL's S822 Airfoil
+ 54. RAF 6 AIRFOIL
+ 55. RG-15 8.9%
+ 56. S1221
+ 57. S1223
+ 58. S2027
+ 59. S2091-101-83
+ 60. S3010-103-84
+ 61. S3021-095-84
+ 62. S4062-095-87
+ 63. S4110
+ 64. S4310
+ 65. S5010
+ 66. S6063 7.05%
+ 67. S7012 8.75%
+ 68. S7055 (10.5%) Flat-Bottomed
+ 69. S7075 (9%)
+ 70. SD2030-086-88
+ 71. SD7003-085-88
+ 72. SD7032-099-88
+ 73. SD7037-092-88
+ 74. SG6041
+ 75. SG6042
+ 76. SG6043
+ 77. WORTMANN FX 049-915 AIRFOIL
+ 78. WORTMANN FX 057-816 AIRFOIL
+ 79. WORTMANN FX 60-126 AIRFOIL
+ 80. WORTMANN FX 63-137 AIRFOIL
+
+================================================================================
+
+PROFILES BY REYNOLDS NUMBER
+--------------------------------------------------------------------------------
+
+
+Reynolds Number: 0.100 (0.100e6)
+Number of profiles: 80
+----------------------------------------
+    1. AG24
+    2. AG35
+    3. Bergey BW-3  (smoothed)
+    4. CLARK YS
+    5. E178
+    6. E193  (10.22%)
+    7. E216  (10.4%)
+    8. E222  (10.17%)
+    9. E387
+   10. E423
+   11. E61  (5.64%)
+   12. E64  (8.45%)
+   13. E71  (5.15%)
+   14. EPPLER 393 AIRFOIL
+   15. EPPLER 420 AIRFOIL
+   16. EPPLER 580 AIRFOIL
+   17. EPPLER 654 AIRFOIL
+   18. EPPLER E852 AIRFOIL
+   19. EPPLER E854 AIRFOIL
+   20. FX 60-100 (126) AIRFOIL
+   21. FX 60-100 AIRFOIL
+   22. FX 61-140 AIRFOIL
+   23. GOE 398 AIRFOIL
+   24. GOE 417 AIRFOIL
+   25. LISSAMAN 7769 AIRFOIL
+   26. MH 16
+   27. MH 17
+   28. MH 18
+   29. MH 20
+   30. MH 22
+   31. MH 30
+   32. MH 50
+   33. MILEY M06-13-128
+   34. NACA 0012-34
+   35. NACA 0015
+   36. NACA 23012  12%
+   37. NACA 2412
+   38. NACA 2415
+   39. NACA 4408
+   40. NACA 4412
+   41. NACA 65(1)-212
+   42. NACA 65(1)-212 a=0.6
+   43. NACA 65(1)-412
+   44. NACA 65-206
+   45. NACA 65-209
+   46. NACA 65-210
+   47. NACA M19 AIRFOIL
+   48. NACA M6 AIRFOIL
+   49. NACA6409 9%
+   50. NACA65-012
+   51. NACA65-015
+   52. NACA65413a=0.8
+   53. NREL's S822 Airfoil
+   54. RAF 6 AIRFOIL
+   55. RG-15 8.9%
+   56. S1221
+   57. S1223
+   58. S2027
+   59. S2091-101-83
+   60. S3010-103-84
+   61. S3021-095-84
+   62. S4062-095-87
+   63. S4110
+   64. S4310
+   65. S5010
+   66. S6063 7.05%
+   67. S7012 8.75%
+   68. S7055 (10.5%) Flat-Bottomed
+   69. S7075 (9%)
+   70. SD2030-086-88
+   71. SD7003-085-88
+   72. SD7032-099-88
+   73. SD7037-092-88
+   74. SG6041
+   75. SG6042
+   76. SG6043
+   77. WORTMANN FX 049-915 AIRFOIL
+   78. WORTMANN FX 057-816 AIRFOIL
+   79. WORTMANN FX 60-126 AIRFOIL
+   80. WORTMANN FX 63-137 AIRFOIL
+
+
+Reynolds Number: 0.130 (0.130e6)
+Number of profiles: 80
+----------------------------------------
+    1. AG24
+    2. AG35
+    3. Bergey BW-3  (smoothed)
+    4. CLARK YS
+    5. E178
+    6. E193  (10.22%)
+    7. E216  (10.4%)
+    8. E222  (10.17%)
+    9. E387
+   10. E423
+   11. E61  (5.64%)
+   12. E64  (8.45%)
+   13. E71  (5.15%)
+   14. EPPLER 393 AIRFOIL
+   15. EPPLER 420 AIRFOIL
+   16. EPPLER 580 AIRFOIL
+   17. EPPLER 654 AIRFOIL
+   18. EPPLER E852 AIRFOIL
+   19. EPPLER E854 AIRFOIL
+   20. FX 60-100 (126) AIRFOIL
+   21. FX 60-100 AIRFOIL
+   22. FX 61-140 AIRFOIL
+   23. GOE 398 AIRFOIL
+   24. GOE 417 AIRFOIL
+   25. LISSAMAN 7769 AIRFOIL
+   26. MH 16
+   27. MH 17
+   28. MH 18
+   29. MH 20
+   30. MH 22
+   31. MH 30
+   32. MH 50
+   33. MILEY M06-13-128
+   34. NACA 0012-34
+   35. NACA 0015
+   36. NACA 23012  12%
+   37. NACA 2412
+   38. NACA 2415
+   39. NACA 4408
+   40. NACA 4412
+   41. NACA 65(1)-212
+   42. NACA 65(1)-212 a=0.6
+   43. NACA 65(1)-412
+   44. NACA 65-206
+   45. NACA 65-209
+   46. NACA 65-210
+   47. NACA M19 AIRFOIL
+   48. NACA M6 AIRFOIL
+   49. NACA6409 9%
+   50. NACA65-012
+   51. NACA65-015
+   52. NACA65413a=0.8
+   53. NREL's S822 Airfoil
+   54. RAF 6 AIRFOIL
+   55. RG-15 8.9%
+   56. S1221
+   57. S1223
+   58. S2027
+   59. S2091-101-83
+   60. S3010-103-84
+   61. S3021-095-84
+   62. S4062-095-87
+   63. S4110
+   64. S4310
+   65. S5010
+   66. S6063 7.05%
+   67. S7012 8.75%
+   68. S7055 (10.5%) Flat-Bottomed
+   69. S7075 (9%)
+   70. SD2030-086-88
+   71. SD7003-085-88
+   72. SD7032-099-88
+   73. SD7037-092-88
+   74. SG6041
+   75. SG6042
+   76. SG6043
+   77. WORTMANN FX 049-915 AIRFOIL
+   78. WORTMANN FX 057-816 AIRFOIL
+   79. WORTMANN FX 60-126 AIRFOIL
+   80. WORTMANN FX 63-137 AIRFOIL
+
+
+Reynolds Number: 0.160 (0.160e6)
+Number of profiles: 80
+----------------------------------------
+    1. AG24
+    2. AG35
+    3. Bergey BW-3  (smoothed)
+    4. CLARK YS
+    5. E178
+    6. E193  (10.22%)
+    7. E216  (10.4%)
+    8. E222  (10.17%)
+    9. E387
+   10. E423
+   11. E61  (5.64%)
+   12. E64  (8.45%)
+   13. E71  (5.15%)
+   14. EPPLER 393 AIRFOIL
+   15. EPPLER 420 AIRFOIL
+   16. EPPLER 580 AIRFOIL
+   17. EPPLER 654 AIRFOIL
+   18. EPPLER E852 AIRFOIL
+   19. EPPLER E854 AIRFOIL
+   20. FX 60-100 (126) AIRFOIL
+   21. FX 60-100 AIRFOIL
+   22. FX 61-140 AIRFOIL
+   23. GOE 398 AIRFOIL
+   24. GOE 417 AIRFOIL
+   25. LISSAMAN 7769 AIRFOIL
+   26. MH 16
+   27. MH 17
+   28. MH 18
+   29. MH 20
+   30. MH 22
+   31. MH 30
+   32. MH 50
+   33. MILEY M06-13-128
+   34. NACA 0012-34
+   35. NACA 0015
+   36. NACA 23012  12%
+   37. NACA 2412
+   38. NACA 2415
+   39. NACA 4408
+   40. NACA 4412
+   41. NACA 65(1)-212
+   42. NACA 65(1)-212 a=0.6
+   43. NACA 65(1)-412
+   44. NACA 65-206
+   45. NACA 65-209
+   46. NACA 65-210
+   47. NACA M19 AIRFOIL
+   48. NACA M6 AIRFOIL
+   49. NACA6409 9%
+   50. NACA65-012
+   51. NACA65-015
+   52. NACA65413a=0.8
+   53. NREL's S822 Airfoil
+   54. RAF 6 AIRFOIL
+   55. RG-15 8.9%
+   56. S1221
+   57. S1223
+   58. S2027
+   59. S2091-101-83
+   60. S3010-103-84
+   61. S3021-095-84
+   62. S4062-095-87
+   63. S4110
+   64. S4310
+   65. S5010
+   66. S6063 7.05%
+   67. S7012 8.75%
+   68. S7055 (10.5%) Flat-Bottomed
+   69. S7075 (9%)
+   70. SD2030-086-88
+   71. SD7003-085-88
+   72. SD7032-099-88
+   73. SD7037-092-88
+   74. SG6041
+   75. SG6042
+   76. SG6043
+   77. WORTMANN FX 049-915 AIRFOIL
+   78. WORTMANN FX 057-816 AIRFOIL
+   79. WORTMANN FX 60-126 AIRFOIL
+   80. WORTMANN FX 63-137 AIRFOIL
+
+
+Reynolds Number: 0.200 (0.200e6)
+Number of profiles: 80
+----------------------------------------
+    1. AG24
+    2. AG35
+    3. Bergey BW-3  (smoothed)
+    4. CLARK YS
+    5. E178
+    6. E193  (10.22%)
+    7. E216  (10.4%)
+    8. E222  (10.17%)
+    9. E387
+   10. E423
+   11. E61  (5.64%)
+   12. E64  (8.45%)
+   13. E71  (5.15%)
+   14. EPPLER 393 AIRFOIL
+   15. EPPLER 420 AIRFOIL
+   16. EPPLER 580 AIRFOIL
+   17. EPPLER 654 AIRFOIL
+   18. EPPLER E852 AIRFOIL
+   19. EPPLER E854 AIRFOIL
+   20. FX 60-100 (126) AIRFOIL
+   21. FX 60-100 AIRFOIL
+   22. FX 61-140 AIRFOIL
+   23. GOE 398 AIRFOIL
+   24. GOE 417 AIRFOIL
+   25. LISSAMAN 7769 AIRFOIL
+   26. MH 16
+   27. MH 17
+   28. MH 18
+   29. MH 20
+   30. MH 22
+   31. MH 30
+   32. MH 50
+   33. MILEY M06-13-128
+   34. NACA 0012-34
+   35. NACA 0015
+   36. NACA 23012  12%
+   37. NACA 2412
+   38. NACA 2415
+   39. NACA 4408
+   40. NACA 4412
+   41. NACA 65(1)-212
+   42. NACA 65(1)-212 a=0.6
+   43. NACA 65(1)-412
+   44. NACA 65-206
+   45. NACA 65-209
+   46. NACA 65-210
+   47. NACA M19 AIRFOIL
+   48. NACA M6 AIRFOIL
+   49. NACA6409 9%
+   50. NACA65-012
+   51. NACA65-015
+   52. NACA65413a=0.8
+   53. NREL's S822 Airfoil
+   54. RAF 6 AIRFOIL
+   55. RG-15 8.9%
+   56. S1221
+   57. S1223
+   58. S2027
+   59. S2091-101-83
+   60. S3010-103-84
+   61. S3021-095-84
+   62. S4062-095-87
+   63. S4110
+   64. S4310
+   65. S5010
+   66. S6063 7.05%
+   67. S7012 8.75%
+   68. S7055 (10.5%) Flat-Bottomed
+   69. S7075 (9%)
+   70. SD2030-086-88
+   71. SD7003-085-88
+   72. SD7032-099-88
+   73. SD7037-092-88
+   74. SG6041
+   75. SG6042
+   76. SG6043
+   77. WORTMANN FX 049-915 AIRFOIL
+   78. WORTMANN FX 057-816 AIRFOIL
+   79. WORTMANN FX 60-126 AIRFOIL
+   80. WORTMANN FX 63-137 AIRFOIL
+
+
+Reynolds Number: 0.300 (0.300e6)
+Number of profiles: 80
+----------------------------------------
+    1. AG24
+    2. AG35
+    3. Bergey BW-3  (smoothed)
+    4. CLARK YS
+    5. E178
+    6. E193  (10.22%)
+    7. E216  (10.4%)
+    8. E222  (10.17%)
+    9. E387
+   10. E423
+   11. E61  (5.64%)
+   12. E64  (8.45%)
+   13. E71  (5.15%)
+   14. EPPLER 393 AIRFOIL
+   15. EPPLER 420 AIRFOIL
+   16. EPPLER 580 AIRFOIL
+   17. EPPLER 654 AIRFOIL
+   18. EPPLER E852 AIRFOIL
+   19. EPPLER E854 AIRFOIL
+   20. FX 60-100 (126) AIRFOIL
+   21. FX 60-100 AIRFOIL
+   22. FX 61-140 AIRFOIL
+   23. GOE 398 AIRFOIL
+   24. GOE 417 AIRFOIL
+   25. LISSAMAN 7769 AIRFOIL
+   26. MH 16
+   27. MH 17
+   28. MH 18
+   29. MH 20
+   30. MH 22
+   31. MH 30
+   32. MH 50
+   33. MILEY M06-13-128
+   34. NACA 0012-34
+   35. NACA 0015
+   36. NACA 23012  12%
+   37. NACA 2412
+   38. NACA 2415
+   39. NACA 4408
+   40. NACA 4412
+   41. NACA 65(1)-212
+   42. NACA 65(1)-212 a=0.6
+   43. NACA 65(1)-412
+   44. NACA 65-206
+   45. NACA 65-209
+   46. NACA 65-210
+   47. NACA M19 AIRFOIL
+   48. NACA M6 AIRFOIL
+   49. NACA6409 9%
+   50. NACA65-012
+   51. NACA65-015
+   52. NACA65413a=0.8
+   53. NREL's S822 Airfoil
+   54. RAF 6 AIRFOIL
+   55. RG-15 8.9%
+   56. S1221
+   57. S1223
+   58. S2027
+   59. S2091-101-83
+   60. S3010-103-84
+   61. S3021-095-84
+   62. S4062-095-87
+   63. S4110
+   64. S4310
+   65. S5010
+   66. S6063 7.05%
+   67. S7012 8.75%
+   68. S7055 (10.5%) Flat-Bottomed
+   69. S7075 (9%)
+   70. SD2030-086-88
+   71. SD7003-085-88
+   72. SD7032-099-88
+   73. SD7037-092-88
+   74. SG6041
+   75. SG6042
+   76. SG6043
+   77. WORTMANN FX 049-915 AIRFOIL
+   78. WORTMANN FX 057-816 AIRFOIL
+   79. WORTMANN FX 60-126 AIRFOIL
+   80. WORTMANN FX 63-137 AIRFOIL
+
+
+Reynolds Number: 0.400 (0.400e6)
+Number of profiles: 80
+----------------------------------------
+    1. AG24
+    2. AG35
+    3. Bergey BW-3  (smoothed)
+    4. CLARK YS
+    5. E178
+    6. E193  (10.22%)
+    7. E216  (10.4%)
+    8. E222  (10.17%)
+    9. E387
+   10. E423
+   11. E61  (5.64%)
+   12. E64  (8.45%)
+   13. E71  (5.15%)
+   14. EPPLER 393 AIRFOIL
+   15. EPPLER 420 AIRFOIL
+   16. EPPLER 580 AIRFOIL
+   17. EPPLER 654 AIRFOIL
+   18. EPPLER E852 AIRFOIL
+   19. EPPLER E854 AIRFOIL
+   20. FX 60-100 (126) AIRFOIL
+   21. FX 60-100 AIRFOIL
+   22. FX 61-140 AIRFOIL
+   23. GOE 398 AIRFOIL
+   24. GOE 417 AIRFOIL
+   25. LISSAMAN 7769 AIRFOIL
+   26. MH 16
+   27. MH 17
+   28. MH 18
+   29. MH 20
+   30. MH 22
+   31. MH 30
+   32. MH 50
+   33. MILEY M06-13-128
+   34. NACA 0012-34
+   35. NACA 0015
+   36. NACA 23012  12%
+   37. NACA 2412
+   38. NACA 2415
+   39. NACA 4408
+   40. NACA 4412
+   41. NACA 65(1)-212
+   42. NACA 65(1)-212 a=0.6
+   43. NACA 65(1)-412
+   44. NACA 65-206
+   45. NACA 65-209
+   46. NACA 65-210
+   47. NACA M19 AIRFOIL
+   48. NACA M6 AIRFOIL
+   49. NACA6409 9%
+   50. NACA65-012
+   51. NACA65-015
+   52. NACA65413a=0.8
+   53. NREL's S822 Airfoil
+   54. RAF 6 AIRFOIL
+   55. RG-15 8.9%
+   56. S1221
+   57. S1223
+   58. S2027
+   59. S2091-101-83
+   60. S3010-103-84
+   61. S3021-095-84
+   62. S4062-095-87
+   63. S4110
+   64. S4310
+   65. S5010
+   66. S6063 7.05%
+   67. S7012 8.75%
+   68. S7055 (10.5%) Flat-Bottomed
+   69. S7075 (9%)
+   70. SD2030-086-88
+   71. SD7003-085-88
+   72. SD7032-099-88
+   73. SD7037-092-88
+   74. SG6041
+   75. SG6042
+   76. SG6043
+   77. WORTMANN FX 049-915 AIRFOIL
+   78. WORTMANN FX 057-816 AIRFOIL
+   79. WORTMANN FX 60-126 AIRFOIL
+   80. WORTMANN FX 63-137 AIRFOIL
+
+
+Reynolds Number: 0.450 (0.450e6)
+Number of profiles: 80
+----------------------------------------
+    1. AG24
+    2. AG35
+    3. Bergey BW-3  (smoothed)
+    4. CLARK YS
+    5. E178
+    6. E193  (10.22%)
+    7. E216  (10.4%)
+    8. E222  (10.17%)
+    9. E387
+   10. E423
+   11. E61  (5.64%)
+   12. E64  (8.45%)
+   13. E71  (5.15%)
+   14. EPPLER 393 AIRFOIL
+   15. EPPLER 420 AIRFOIL
+   16. EPPLER 580 AIRFOIL
+   17. EPPLER 654 AIRFOIL
+   18. EPPLER E852 AIRFOIL
+   19. EPPLER E854 AIRFOIL
+   20. FX 60-100 (126) AIRFOIL
+   21. FX 60-100 AIRFOIL
+   22. FX 61-140 AIRFOIL
+   23. GOE 398 AIRFOIL
+   24. GOE 417 AIRFOIL
+   25. LISSAMAN 7769 AIRFOIL
+   26. MH 16
+   27. MH 17
+   28. MH 18
+   29. MH 20
+   30. MH 22
+   31. MH 30
+   32. MH 50
+   33. MILEY M06-13-128
+   34. NACA 0012-34
+   35. NACA 0015
+   36. NACA 23012  12%
+   37. NACA 2412
+   38. NACA 2415
+   39. NACA 4408
+   40. NACA 4412
+   41. NACA 65(1)-212
+   42. NACA 65(1)-212 a=0.6
+   43. NACA 65(1)-412
+   44. NACA 65-206
+   45. NACA 65-209
+   46. NACA 65-210
+   47. NACA M19 AIRFOIL
+   48. NACA M6 AIRFOIL
+   49. NACA6409 9%
+   50. NACA65-012
+   51. NACA65-015
+   52. NACA65413a=0.8
+   53. NREL's S822 Airfoil
+   54. RAF 6 AIRFOIL
+   55. RG-15 8.9%
+   56. S1221
+   57. S1223
+   58. S2027
+   59. S2091-101-83
+   60. S3010-103-84
+   61. S3021-095-84
+   62. S4062-095-87
+   63. S4110
+   64. S4310
+   65. S5010
+   66. S6063 7.05%
+   67. S7012 8.75%
+   68. S7055 (10.5%) Flat-Bottomed
+   69. S7075 (9%)
+   70. SD2030-086-88
+   71. SD7003-085-88
+   72. SD7032-099-88
+   73. SD7037-092-88
+   74. SG6041
+   75. SG6042
+   76. SG6043
+   77. WORTMANN FX 049-915 AIRFOIL
+   78. WORTMANN FX 057-816 AIRFOIL
+   79. WORTMANN FX 60-126 AIRFOIL
+   80. WORTMANN FX 63-137 AIRFOIL
+
+
+Reynolds Number: 0.500 (0.500e6)
+Number of profiles: 80
+----------------------------------------
+    1. AG24
+    2. AG35
+    3. Bergey BW-3  (smoothed)
+    4. CLARK YS
+    5. E178
+    6. E193  (10.22%)
+    7. E216  (10.4%)
+    8. E222  (10.17%)
+    9. E387
+   10. E423
+   11. E61  (5.64%)
+   12. E64  (8.45%)
+   13. E71  (5.15%)
+   14. EPPLER 393 AIRFOIL
+   15. EPPLER 420 AIRFOIL
+   16. EPPLER 580 AIRFOIL
+   17. EPPLER 654 AIRFOIL
+   18. EPPLER E852 AIRFOIL
+   19. EPPLER E854 AIRFOIL
+   20. FX 60-100 (126) AIRFOIL
+   21. FX 60-100 AIRFOIL
+   22. FX 61-140 AIRFOIL
+   23. GOE 398 AIRFOIL
+   24. GOE 417 AIRFOIL
+   25. LISSAMAN 7769 AIRFOIL
+   26. MH 16
+   27. MH 17
+   28. MH 18
+   29. MH 20
+   30. MH 22
+   31. MH 30
+   32. MH 50
+   33. MILEY M06-13-128
+   34. NACA 0012-34
+   35. NACA 0015
+   36. NACA 23012  12%
+   37. NACA 2412
+   38. NACA 2415
+   39. NACA 4408
+   40. NACA 4412
+   41. NACA 65(1)-212
+   42. NACA 65(1)-212 a=0.6
+   43. NACA 65(1)-412
+   44. NACA 65-206
+   45. NACA 65-209
+   46. NACA 65-210
+   47. NACA M19 AIRFOIL
+   48. NACA M6 AIRFOIL
+   49. NACA6409 9%
+   50. NACA65-012
+   51. NACA65-015
+   52. NACA65413a=0.8
+   53. NREL's S822 Airfoil
+   54. RAF 6 AIRFOIL
+   55. RG-15 8.9%
+   56. S1221
+   57. S1223
+   58. S2027
+   59. S2091-101-83
+   60. S3010-103-84
+   61. S3021-095-84
+   62. S4062-095-87
+   63. S4110
+   64. S4310
+   65. S5010
+   66. S6063 7.05%
+   67. S7012 8.75%
+   68. S7055 (10.5%) Flat-Bottomed
+   69. S7075 (9%)
+   70. SD2030-086-88
+   71. SD7003-085-88
+   72. SD7032-099-88
+   73. SD7037-092-88
+   74. SG6041
+   75. SG6042
+   76. SG6043
+   77. WORTMANN FX 049-915 AIRFOIL
+   78. WORTMANN FX 057-816 AIRFOIL
+   79. WORTMANN FX 60-126 AIRFOIL
+   80. WORTMANN FX 63-137 AIRFOIL
+
+
+Reynolds Number: 0.563 (0.563e6)
+Number of profiles: 80
+----------------------------------------
+    1. AG24
+    2. AG35
+    3. Bergey BW-3  (smoothed)
+    4. CLARK YS
+    5. E178
+    6. E193  (10.22%)
+    7. E216  (10.4%)
+    8. E222  (10.17%)
+    9. E387
+   10. E423
+   11. E61  (5.64%)
+   12. E64  (8.45%)
+   13. E71  (5.15%)
+   14. EPPLER 393 AIRFOIL
+   15. EPPLER 420 AIRFOIL
+   16. EPPLER 580 AIRFOIL
+   17. EPPLER 654 AIRFOIL
+   18. EPPLER E852 AIRFOIL
+   19. EPPLER E854 AIRFOIL
+   20. FX 60-100 (126) AIRFOIL
+   21. FX 60-100 AIRFOIL
+   22. FX 61-140 AIRFOIL
+   23. GOE 398 AIRFOIL
+   24. GOE 417 AIRFOIL
+   25. LISSAMAN 7769 AIRFOIL
+   26. MH 16
+   27. MH 17
+   28. MH 18
+   29. MH 20
+   30. MH 22
+   31. MH 30
+   32. MH 50
+   33. MILEY M06-13-128
+   34. NACA 0012-34
+   35. NACA 0015
+   36. NACA 23012  12%
+   37. NACA 2412
+   38. NACA 2415
+   39. NACA 4408
+   40. NACA 4412
+   41. NACA 65(1)-212
+   42. NACA 65(1)-212 a=0.6
+   43. NACA 65(1)-412
+   44. NACA 65-206
+   45. NACA 65-209
+   46. NACA 65-210
+   47. NACA M19 AIRFOIL
+   48. NACA M6 AIRFOIL
+   49. NACA6409 9%
+   50. NACA65-012
+   51. NACA65-015
+   52. NACA65413a=0.8
+   53. NREL's S822 Airfoil
+   54. RAF 6 AIRFOIL
+   55. RG-15 8.9%
+   56. S1221
+   57. S1223
+   58. S2027
+   59. S2091-101-83
+   60. S3010-103-84
+   61. S3021-095-84
+   62. S4062-095-87
+   63. S4110
+   64. S4310
+   65. S5010
+   66. S6063 7.05%
+   67. S7012 8.75%
+   68. S7055 (10.5%) Flat-Bottomed
+   69. S7075 (9%)
+   70. SD2030-086-88
+   71. SD7003-085-88
+   72. SD7032-099-88
+   73. SD7037-092-88
+   74. SG6041
+   75. SG6042
+   76. SG6043
+   77. WORTMANN FX 049-915 AIRFOIL
+   78. WORTMANN FX 057-816 AIRFOIL
+   79. WORTMANN FX 60-126 AIRFOIL
+   80. WORTMANN FX 63-137 AIRFOIL
+
+
+Reynolds Number: 0.625 (0.625e6)
+Number of profiles: 80
+----------------------------------------
+    1. AG24
+    2. AG35
+    3. Bergey BW-3  (smoothed)
+    4. CLARK YS
+    5. E178
+    6. E193  (10.22%)
+    7. E216  (10.4%)
+    8. E222  (10.17%)
+    9. E387
+   10. E423
+   11. E61  (5.64%)
+   12. E64  (8.45%)
+   13. E71  (5.15%)
+   14. EPPLER 393 AIRFOIL
+   15. EPPLER 420 AIRFOIL
+   16. EPPLER 580 AIRFOIL
+   17. EPPLER 654 AIRFOIL
+   18. EPPLER E852 AIRFOIL
+   19. EPPLER E854 AIRFOIL
+   20. FX 60-100 (126) AIRFOIL
+   21. FX 60-100 AIRFOIL
+   22. FX 61-140 AIRFOIL
+   23. GOE 398 AIRFOIL
+   24. GOE 417 AIRFOIL
+   25. LISSAMAN 7769 AIRFOIL
+   26. MH 16
+   27. MH 17
+   28. MH 18
+   29. MH 20
+   30. MH 22
+   31. MH 30
+   32. MH 50
+   33. MILEY M06-13-128
+   34. NACA 0012-34
+   35. NACA 0015
+   36. NACA 23012  12%
+   37. NACA 2412
+   38. NACA 2415
+   39. NACA 4408
+   40. NACA 4412
+   41. NACA 65(1)-212
+   42. NACA 65(1)-212 a=0.6
+   43. NACA 65(1)-412
+   44. NACA 65-206
+   45. NACA 65-209
+   46. NACA 65-210
+   47. NACA M19 AIRFOIL
+   48. NACA M6 AIRFOIL
+   49. NACA6409 9%
+   50. NACA65-012
+   51. NACA65-015
+   52. NACA65413a=0.8
+   53. NREL's S822 Airfoil
+   54. RAF 6 AIRFOIL
+   55. RG-15 8.9%
+   56. S1221
+   57. S1223
+   58. S2027
+   59. S2091-101-83
+   60. S3010-103-84
+   61. S3021-095-84
+   62. S4062-095-87
+   63. S4110
+   64. S4310
+   65. S5010
+   66. S6063 7.05%
+   67. S7012 8.75%
+   68. S7055 (10.5%) Flat-Bottomed
+   69. S7075 (9%)
+   70. SD2030-086-88
+   71. SD7003-085-88
+   72. SD7032-099-88
+   73. SD7037-092-88
+   74. SG6041
+   75. SG6042
+   76. SG6043
+   77. WORTMANN FX 049-915 AIRFOIL
+   78. WORTMANN FX 057-816 AIRFOIL
+   79. WORTMANN FX 60-126 AIRFOIL
+   80. WORTMANN FX 63-137 AIRFOIL
+
+
+Reynolds Number: 0.688 (0.688e6)
+Number of profiles: 80
+----------------------------------------
+    1. AG24
+    2. AG35
+    3. Bergey BW-3  (smoothed)
+    4. CLARK YS
+    5. E178
+    6. E193  (10.22%)
+    7. E216  (10.4%)
+    8. E222  (10.17%)
+    9. E387
+   10. E423
+   11. E61  (5.64%)
+   12. E64  (8.45%)
+   13. E71  (5.15%)
+   14. EPPLER 393 AIRFOIL
+   15. EPPLER 420 AIRFOIL
+   16. EPPLER 580 AIRFOIL
+   17. EPPLER 654 AIRFOIL
+   18. EPPLER E852 AIRFOIL
+   19. EPPLER E854 AIRFOIL
+   20. FX 60-100 (126) AIRFOIL
+   21. FX 60-100 AIRFOIL
+   22. FX 61-140 AIRFOIL
+   23. GOE 398 AIRFOIL
+   24. GOE 417 AIRFOIL
+   25. LISSAMAN 7769 AIRFOIL
+   26. MH 16
+   27. MH 17
+   28. MH 18
+   29. MH 20
+   30. MH 22
+   31. MH 30
+   32. MH 50
+   33. MILEY M06-13-128
+   34. NACA 0012-34
+   35. NACA 0015
+   36. NACA 23012  12%
+   37. NACA 2412
+   38. NACA 2415
+   39. NACA 4408
+   40. NACA 4412
+   41. NACA 65(1)-212
+   42. NACA 65(1)-212 a=0.6
+   43. NACA 65(1)-412
+   44. NACA 65-206
+   45. NACA 65-209
+   46. NACA 65-210
+   47. NACA M19 AIRFOIL
+   48. NACA M6 AIRFOIL
+   49. NACA6409 9%
+   50. NACA65-012
+   51. NACA65-015
+   52. NACA65413a=0.8
+   53. NREL's S822 Airfoil
+   54. RAF 6 AIRFOIL
+   55. RG-15 8.9%
+   56. S1221
+   57. S1223
+   58. S2027
+   59. S2091-101-83
+   60. S3010-103-84
+   61. S3021-095-84
+   62. S4062-095-87
+   63. S4110
+   64. S4310
+   65. S5010
+   66. S6063 7.05%
+   67. S7012 8.75%
+   68. S7055 (10.5%) Flat-Bottomed
+   69. S7075 (9%)
+   70. SD2030-086-88
+   71. SD7003-085-88
+   72. SD7032-099-88
+   73. SD7037-092-88
+   74. SG6041
+   75. SG6042
+   76. SG6043
+   77. WORTMANN FX 049-915 AIRFOIL
+   78. WORTMANN FX 057-816 AIRFOIL
+   79. WORTMANN FX 60-126 AIRFOIL
+   80. WORTMANN FX 63-137 AIRFOIL
+
+
+Reynolds Number: 0.719 (0.719e6)
+Number of profiles: 80
+----------------------------------------
+    1. AG24
+    2. AG35
+    3. Bergey BW-3  (smoothed)
+    4. CLARK YS
+    5. E178
+    6. E193  (10.22%)
+    7. E216  (10.4%)
+    8. E222  (10.17%)
+    9. E387
+   10. E423
+   11. E61  (5.64%)
+   12. E64  (8.45%)
+   13. E71  (5.15%)
+   14. EPPLER 393 AIRFOIL
+   15. EPPLER 420 AIRFOIL
+   16. EPPLER 580 AIRFOIL
+   17. EPPLER 654 AIRFOIL
+   18. EPPLER E852 AIRFOIL
+   19. EPPLER E854 AIRFOIL
+   20. FX 60-100 (126) AIRFOIL
+   21. FX 60-100 AIRFOIL
+   22. FX 61-140 AIRFOIL
+   23. GOE 398 AIRFOIL
+   24. GOE 417 AIRFOIL
+   25. LISSAMAN 7769 AIRFOIL
+   26. MH 16
+   27. MH 17
+   28. MH 18
+   29. MH 20
+   30. MH 22
+   31. MH 30
+   32. MH 50
+   33. MILEY M06-13-128
+   34. NACA 0012-34
+   35. NACA 0015
+   36. NACA 23012  12%
+   37. NACA 2412
+   38. NACA 2415
+   39. NACA 4408
+   40. NACA 4412
+   41. NACA 65(1)-212
+   42. NACA 65(1)-212 a=0.6
+   43. NACA 65(1)-412
+   44. NACA 65-206
+   45. NACA 65-209
+   46. NACA 65-210
+   47. NACA M19 AIRFOIL
+   48. NACA M6 AIRFOIL
+   49. NACA6409 9%
+   50. NACA65-012
+   51. NACA65-015
+   52. NACA65413a=0.8
+   53. NREL's S822 Airfoil
+   54. RAF 6 AIRFOIL
+   55. RG-15 8.9%
+   56. S1221
+   57. S1223
+   58. S2027
+   59. S2091-101-83
+   60. S3010-103-84
+   61. S3021-095-84
+   62. S4062-095-87
+   63. S4110
+   64. S4310
+   65. S5010
+   66. S6063 7.05%
+   67. S7012 8.75%
+   68. S7055 (10.5%) Flat-Bottomed
+   69. S7075 (9%)
+   70. SD2030-086-88
+   71. SD7003-085-88
+   72. SD7032-099-88
+   73. SD7037-092-88
+   74. SG6041
+   75. SG6042
+   76. SG6043
+   77. WORTMANN FX 049-915 AIRFOIL
+   78. WORTMANN FX 057-816 AIRFOIL
+   79. WORTMANN FX 60-126 AIRFOIL
+   80. WORTMANN FX 63-137 AIRFOIL
+
+
+Reynolds Number: 1.000 (0.000e6)
+Number of profiles: 80
+----------------------------------------
+    1. AG24
+    2. AG35
+    3. Bergey BW-3  (smoothed)
+    4. CLARK YS
+    5. E178
+    6. E193  (10.22%)
+    7. E216  (10.4%)
+    8. E222  (10.17%)
+    9. E387
+   10. E423
+   11. E61  (5.64%)
+   12. E64  (8.45%)
+   13. E71  (5.15%)
+   14. EPPLER 393 AIRFOIL
+   15. EPPLER 420 AIRFOIL
+   16. EPPLER 580 AIRFOIL
+   17. EPPLER 654 AIRFOIL
+   18. EPPLER E852 AIRFOIL
+   19. EPPLER E854 AIRFOIL
+   20. FX 60-100 (126) AIRFOIL
+   21. FX 60-100 AIRFOIL
+   22. FX 61-140 AIRFOIL
+   23. GOE 398 AIRFOIL
+   24. GOE 417 AIRFOIL
+   25. LISSAMAN 7769 AIRFOIL
+   26. MH 16
+   27. MH 17
+   28. MH 18
+   29. MH 20
+   30. MH 22
+   31. MH 30
+   32. MH 50
+   33. MILEY M06-13-128
+   34. NACA 0012-34
+   35. NACA 0015
+   36. NACA 23012  12%
+   37. NACA 2412
+   38. NACA 2415
+   39. NACA 4408
+   40. NACA 4412
+   41. NACA 65(1)-212
+   42. NACA 65(1)-212 a=0.6
+   43. NACA 65(1)-412
+   44. NACA 65-206
+   45. NACA 65-209
+   46. NACA 65-210
+   47. NACA M19 AIRFOIL
+   48. NACA M6 AIRFOIL
+   49. NACA6409 9%
+   50. NACA65-012
+   51. NACA65-015
+   52. NACA65413a=0.8
+   53. NREL's S822 Airfoil
+   54. RAF 6 AIRFOIL
+   55. RG-15 8.9%
+   56. S1221
+   57. S1223
+   58. S2027
+   59. S2091-101-83
+   60. S3010-103-84
+   61. S3021-095-84
+   62. S4062-095-87
+   63. S4110
+   64. S4310
+   65. S5010
+   66. S6063 7.05%
+   67. S7012 8.75%
+   68. S7055 (10.5%) Flat-Bottomed
+   69. S7075 (9%)
+   70. SD2030-086-88
+   71. SD7003-085-88
+   72. SD7032-099-88
+   73. SD7037-092-88
+   74. SG6041
+   75. SG6042
+   76. SG6043
+   77. WORTMANN FX 049-915 AIRFOIL
+   78. WORTMANN FX 057-816 AIRFOIL
+   79. WORTMANN FX 60-126 AIRFOIL
+   80. WORTMANN FX 63-137 AIRFOIL
+
+================================================================================
+END OF FILE
+================================================================================

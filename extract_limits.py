@@ -25,6 +25,7 @@ def extract_values(polars_dir=None, profiles=None, re_filter=None, alphas=None):
         df = p["df"]
         name = p["name"]
         if df is None or df.empty:
+            print(f"WARNING: Skipping '{name}' - no polar data available (empty file)")
             continue
         row = {}
         # values at requested alphas (nearest)
@@ -61,6 +62,7 @@ def extract_limits(polars_dir=None, profiles=None, re_filter=None):
         df = p["df"]
         name = p["name"]
         if df is None or df.empty:
+            print(f"WARNING: Skipping '{name}' - no polar data available (empty file)")
             continue
 
         # Find CD min
@@ -68,6 +70,9 @@ def extract_limits(polars_dir=None, profiles=None, re_filter=None):
         cd_min = float(df.loc[cd_min_idx, "CD"])
         alpha_cd_min = float(df.loc[cd_min_idx, "alpha"])
         cl_ideal = float(df.loc[cd_min_idx, "CL"])  # Cl at Cd_min (ideal Cl)
+
+        # Calculate Cl/Cd at Cl_ideal (Cl_i)
+        cl_cd_at_cli = cl_ideal / cd_min if cd_min != 0 else np.nan
 
         # Find CL max
         cl_max_idx = df["CL"].idxmax()
@@ -112,7 +117,8 @@ def extract_limits(polars_dir=None, profiles=None, re_filter=None):
                 "Cm_0": cm_0,
                 "Cd_min": cd_min,
                 "α @ Cd_min (deg)": alpha_cd_min,
-                "Cl @ Cd_min": cl_ideal,
+                "Cl_i": cl_ideal,  # Simplified name for Cl_ideal
+                "Cl/Cd @ Cl_i": cl_cd_at_cli,  # Cl/Cd evaluated at Cl_ideal
                 "Cl_max": cl_max,
                 "α @ Cl_max (deg)": alpha_cl_max,
                 "Cd @ Cl_max": cd_at_cl_max,

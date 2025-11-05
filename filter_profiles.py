@@ -2,6 +2,31 @@ import pandas as pd
 
 from extract_limits import extract_limits
 
+# Column aliases for easier filtering (without special characters, all lowercase)
+COLUMN_ALIASES = {
+    # Lift slope aliases
+    "cl_alpha_deg": "Cl_alpha (deg⁻¹)",
+    "cl_alpha_rad": "Cl_alpha (rad⁻¹)",
+    "cl_alpha": "Cl_alpha (rad⁻¹)",  # Default to radians
+    # Moment coefficient
+    "cm_0": "Cm_0",
+    # Drag
+    "cd_min": "Cd_min",
+    "cd_at_cl_max": "Cd @ Cl_max",
+    # Lift
+    "cl_max": "Cl_max",
+    "cl_i": "Cl_i",  # Simplified name for Cl_ideal (Cl @ Cd_min)
+    "cl_ideal": "Cl_i",  # Alias for Cl_ideal
+    # Efficiency
+    "cl_cd_max": "Cl/Cd_max",
+    "cl_cd_at_cli": "Cl/Cd @ Cl_i",  # Cl/Cd evaluated at Cl_ideal
+    "cl_cd_cli": "Cl/Cd @ Cl_i",  # Short alias
+    # Angles (all in degrees)
+    "alpha_cd_min": "α @ Cd_min (deg)",
+    "alpha_cl_max": "α @ Cl_max (deg)",
+    "alpha_cl_cd_max": "α @ Cl/Cd_max (deg)",
+}
+
 
 def filter_profiles(
     polars_dir=None,
@@ -74,26 +99,42 @@ def filter_profiles(
     # Apply filtering criteria
     if criteria:
         for param, (operator, value) in criteria.items():
-            if param not in df.columns:
+            # Try to resolve alias to actual column name (case-insensitive)
+            # First try exact match, then try lowercase match
+            actual_param = COLUMN_ALIASES.get(param)
+            if actual_param is None:
+                # Try case-insensitive match
+                param_lower = param.lower()
+                actual_param = COLUMN_ALIASES.get(param_lower, param)
+
+            if actual_param not in df.columns:
+                # Show available aliases and columns
+                available_aliases = list(COLUMN_ALIASES.keys())
                 raise ValueError(
-                    f"Parameter '{param}' not found. Available: {', '.join(df.columns)}"
+                    f"Parameter '{param}' (resolved to '{actual_param}') not found.\n"
+                    f"Available short names: {', '.join(available_aliases)}\n"
+                    f"Available full names: {', '.join(df.columns)}"
                 )
 
             if operator == ">":
-                df = df[df[param] > value]
+                df = df[df[actual_param] > value]
             elif operator == ">=":
-                df = df[df[param] >= value]
+                df = df[df[actual_param] >= value]
             elif operator == "<":
-                df = df[df[param] < value]
+                df = df[df[actual_param] < value]
             elif operator == "<=":
-                df = df[df[param] <= value]
+                df = df[df[actual_param] <= value]
             elif operator == "==":
-                df = df[df[param] == value]
+                df = df[df[actual_param] == value]
             elif operator == "!=":
-                df = df[df[param] != value]
+                df = df[df[actual_param] != value]
+            elif operator == "between":
+                # value is a tuple (min_val, max_val)
+                min_val, max_val = value
+                df = df[(df[actual_param] >= min_val) & (df[actual_param] <= max_val)]
             else:
                 raise ValueError(
-                    f"Invalid operator '{operator}'. Use: >, >=, <, <=, ==, !="
+                    f"Invalid operator '{operator}'. Use: >, >=, <, <=, ==, !=, between"
                 )
 
     return df.reset_index(drop=True)

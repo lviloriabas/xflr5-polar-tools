@@ -22,7 +22,42 @@ def plot_polars(
     re_filter=None,
     out_path=None,
     figsize=(16, 12),
+    filter_criteria=None,
+    filter_display=None,
 ):
+    """
+    Plot polar curves for selected profiles.
+
+    Parameters:
+    -----------
+    polars_dir : str
+        Directory containing polar files
+    profiles : list
+        List of profile name filters (substrings)
+    re_filter : str
+        Reynolds number filter
+    out_path : str
+        Output file path for the figure
+    figsize : tuple
+        Figure size (width, height)
+    filter_criteria : dict
+        Filter criteria dict {param: (operator, value)}
+        If provided, only profiles matching these criteria will be plotted
+    filter_display : dict
+        Original filter criteria for display (with user's original aliases)
+    """
+    # Apply filter criteria if provided
+    if filter_criteria:
+        from filter_profiles import filter_profiles
+
+        filtered_df = filter_profiles(polars_dir, profiles, re_filter, filter_criteria)
+
+        if filtered_df.empty:
+            raise RuntimeError("No profiles match the filter criteria")
+
+        # Get list of profile names from filtered results
+        profiles = filtered_df["Profile"].tolist()
+
     files = list_polar_files(polars_dir)
     # filter by profiles list if provided (list of names or substrings)
     if profiles:
@@ -83,6 +118,7 @@ def plot_polars(
         # Only use profile name in legend, no Reynolds
         label = parsed["name"]
         if df is None or df.empty:
+            print(f"WARNING: Skipping '{label}' - no polar data available (empty file)")
             continue
 
         # Cycle through colors only (solid lines for all)
@@ -153,16 +189,76 @@ def plot_polars(
 
     # Add overall title with Reynolds number and profile count
     if re_display:
-        fig.suptitle(
-            f"Simulaciones de {num_profiles} perfiles a Re = {re_display}",
-            fontsize=20,
-            y=0.99,
-        )
+        title = f"Simulaciones de {num_profiles} perfiles a Re = {re_display}"
     else:
-        fig.suptitle(
-            f"Simulaciones de {num_profiles} perfiles",
-            fontsize=20,
-            y=0.99,
+        title = f"Simulaciones de {num_profiles} perfiles"
+
+    fig.suptitle(title, fontsize=20, y=0.99)
+
+    # Add filter criteria as separate annotation with proper LaTeX notation
+    if filter_display:
+        # Mapping from aliases to LaTeX notation
+        LATEX_NOTATION = {
+            "cl_alpha": r"$C_{l_\alpha}$",
+            "cl_alpha_deg": r"$C_{l_\alpha}$",
+            "cl_alpha_rad": r"$C_{l_\alpha}$",
+            "cm_0": r"$C_{m_0}$",
+            "cd_min": r"$C_{d_{min}}$",
+            "cd_at_cl_max": r"$C_d$ @ $C_{l_{max}}$",
+            "cl_max": r"$C_{l_{max}}$",
+            "cl_i": r"$C_{l_i}$",
+            "cl_ideal": r"$C_{l_i}$",
+            "cl_cd_max": r"$(C_l/C_d)_{max}$",
+            "cl_cd_at_cli": r"$C_l/C_d$ @ $C_{l_i}$",
+            "cl_cd_cli": r"$C_l/C_d$ @ $C_{l_i}$",
+            "alpha_cd_min": r"$\alpha$ @ $C_{d_{min}}$",
+            "alpha_cl_max": r"$\alpha$ @ $C_{l_{max}}$",
+            "alpha_cl_cd_max": r"$\alpha$ @ $(C_l/C_d)_{max}$",
+        }
+
+        # Mapping for operators
+        OPERATOR_LATEX = {
+            ">=": r"$\geq$",
+            "<=": r"$\leq$",
+            ">": r"$>$",
+            "<": r"$<$",
+            "==": r"$=$",
+            "!=": r"$\neq$",
+        }
+
+        filter_parts = []
+        for param, (op, value) in filter_display.items():
+            # Convert parameter to LaTeX notation
+            param_lower = param.lower()
+            latex_param = LATEX_NOTATION.get(param_lower, param)
+
+            if op == "between":
+                # value is a tuple (min_val, max_val)
+                min_val, max_val = value
+                filter_parts.append(
+                    f"{min_val} {r'$\leq$'} {latex_param} {r'$\leq$'} {max_val}"
+                )
+            else:
+                latex_op = OPERATOR_LATEX.get(op, op)
+                filter_parts.append(f"{latex_param} {latex_op} {value}")
+
+        filter_text = "Filtros: " + "  |  ".join(filter_parts)
+
+        # Add filter annotation below the title (higher position to avoid overlap)
+        fig.text(
+            0.5,
+            0.955,
+            filter_text,
+            ha="center",
+            va="top",
+            fontsize=13,
+            bbox=dict(
+                boxstyle="round,pad=0.6",
+                facecolor="lightblue",
+                alpha=0.25,
+                edgecolor="steelblue",
+                linewidth=1.5,
+            ),
         )
 
     # Add legend outside the plot area on the right
@@ -190,6 +286,8 @@ def plot_clmax_vs_clideal(
     re_filter=None,
     out_path=None,
     figsize=(12, 10),
+    filter_criteria=None,
+    filter_display=None,
 ):
     """
     Plot Cl_max vs Cl_ideal (Cl at Cd_min) for profile comparison.
@@ -209,6 +307,10 @@ def plot_clmax_vs_clideal(
         Output file path for the figure
     figsize : tuple
         Figure size (width, height)
+    filter_criteria : dict
+        Filter criteria dict {param: (operator, value)}
+    filter_display : dict
+        Original filter criteria for display
     """
     from extract_limits import extract_limits
 
@@ -217,6 +319,35 @@ def plot_clmax_vs_clideal(
 
     if df.empty:
         raise RuntimeError("No profiles to plot")
+
+    # Apply filter criteria if provided
+    if filter_criteria:
+        from filter_profiles import COLUMN_ALIASES
+
+        # Apply each filter criterion
+        for param, (op, value) in filter_criteria.items():
+            # Resolve alias to actual column name
+            param_lower = param.lower()
+            actual_param = COLUMN_ALIASES.get(param_lower)
+            if actual_param is None:
+                actual_param = COLUMN_ALIASES.get(param, param)
+
+            # Apply filter
+            if op == ">":
+                df = df[df[actual_param] > value]
+            elif op == ">=":
+                df = df[df[actual_param] >= value]
+            elif op == "<":
+                df = df[df[actual_param] < value]
+            elif op == "<=":
+                df = df[df[actual_param] <= value]
+            elif op == "==":
+                df = df[df[actual_param] == value]
+            elif op == "!=":
+                df = df[df[actual_param] != value]
+
+        if df.empty:
+            raise RuntimeError("No profiles match the filter criteria")
 
     # Extract Re value for title
     re_display = None
@@ -251,25 +382,25 @@ def plot_clmax_vs_clideal(
     x_points = []
     y_points = []
 
-    for i, row in df.iterrows():
+    for idx, (i, row) in enumerate(df.iterrows()):
         ax.scatter(
-            row["Cl @ Cd_min"],
+            row["Cl_i"],
             row["Cl_max"],
             s=35,
-            color=colors[i],
+            color=colors[idx],
             alpha=0.8,
             edgecolors="black",
             linewidth=0.8,
             zorder=3,
         )
 
-        x_points.append(row["Cl @ Cd_min"])
+        x_points.append(row["Cl_i"])
         y_points.append(row["Cl_max"])
 
         # Add profile name annotation - smaller text for many profiles
         fontsize = 7 if num_profiles > 15 else 9
         text = ax.text(
-            row["Cl @ Cd_min"],
+            row["Cl_i"],
             row["Cl_max"],
             row["Profile"],
             fontsize=fontsize,
@@ -318,8 +449,8 @@ def plot_clmax_vs_clideal(
     except ImportError:
         # If adjustText is not available, keep simple positioning
         pass  # Formatting (without bold)
-    ax.set_xlabel(r"$C_{l,ideal}$ ($C_l$ @ $C_{d,min}$)", fontsize=22)
-    ax.set_ylabel(r"$C_{l,max}$", fontsize=22)
+    ax.set_xlabel(r"$C_{l_i}$ ($C_l$ @ $C_{d_{min}}$)", fontsize=22)
+    ax.set_ylabel(r"$C_{l_{max}}$", fontsize=22)
     ax.tick_params(axis="both", labelsize=18)
 
     # Add more detailed grid with major and minor ticks
@@ -331,7 +462,7 @@ def plot_clmax_vs_clideal(
     from matplotlib.ticker import AutoMinorLocator, MultipleLocator
 
     # Calculate appropriate intervals based on data range
-    x_range = df["Cl @ Cd_min"].max() - df["Cl @ Cd_min"].min()
+    x_range = df["Cl_i"].max() - df["Cl_i"].min()
     y_range = df["Cl_max"].max() - df["Cl_max"].min()
 
     # Major ticks every 0.1 or 0.2 depending on range
@@ -347,16 +478,77 @@ def plot_clmax_vs_clideal(
 
     # Add title (without bold)
     if re_display:
-        ax.set_title(
-            f"Simulaciones de {num_profiles} perfiles a Re = {re_display}",
-            fontsize=24,
-            pad=20,
-        )
+        title = f"Simulaciones de {num_profiles} perfiles a Re = {re_display}"
     else:
-        ax.set_title(
-            f"Simulaciones de {num_profiles} perfiles",
-            fontsize=24,
-            pad=20,
+        title = f"Simulaciones de {num_profiles} perfiles"
+
+    ax.set_title(title, fontsize=24, pad=20)
+
+    # Add filter criteria as separate annotation with proper LaTeX notation
+    if filter_display:
+        # Mapping from aliases to LaTeX notation
+        LATEX_NOTATION = {
+            "cl_alpha": r"$C_{l_\alpha}$",
+            "cl_alpha_deg": r"$C_{l_\alpha}$",
+            "cl_alpha_rad": r"$C_{l_\alpha}$",
+            "cm_0": r"$C_{m_0}$",
+            "cd_min": r"$C_{d_{min}}$",
+            "cd_at_cl_max": r"$C_d$ @ $C_{l_{max}}$",
+            "cl_max": r"$C_{l_{max}}$",
+            "cl_i": r"$C_{l_i}$",
+            "cl_ideal": r"$C_{l_i}$",
+            "cl_cd_max": r"$(C_l/C_d)_{max}$",
+            "cl_cd_at_cli": r"$C_l/C_d$ @ $C_{l_i}$",
+            "cl_cd_cli": r"$C_l/C_d$ @ $C_{l_i}$",
+            "alpha_cd_min": r"$\alpha$ @ $C_{d_{min}}$",
+            "alpha_cl_max": r"$\alpha$ @ $C_{l_{max}}$",
+            "alpha_cl_cd_max": r"$\alpha$ @ $(C_l/C_d)_{max}$",
+        }
+
+        # Mapping for operators
+        OPERATOR_LATEX = {
+            ">=": r"$\geq$",
+            "<=": r"$\leq$",
+            ">": r"$>$",
+            "<": r"$<$",
+            "==": r"$=$",
+            "!=": r"$\neq$",
+        }
+
+        filter_parts = []
+        for param, (op, value) in filter_display.items():
+            # Convert parameter to LaTeX notation
+            param_lower = param.lower()
+            latex_param = LATEX_NOTATION.get(param_lower, param)
+
+            if op == "between":
+                # value is a tuple (min_val, max_val)
+                min_val, max_val = value
+                filter_parts.append(
+                    f"{min_val} {r'$\leq$'} {latex_param} {r'$\leq$'} {max_val}"
+                )
+            else:
+                latex_op = OPERATOR_LATEX.get(op, op)
+                filter_parts.append(f"{latex_param} {latex_op} {value}")
+
+        filter_text = "Filtros:\n" + "\n".join(filter_parts)
+
+        # Add filter annotation in upper left corner of the plot
+        ax.text(
+            0.02,
+            0.98,
+            filter_text,
+            transform=ax.transAxes,
+            ha="left",
+            va="top",
+            fontsize=12,
+            bbox=dict(
+                boxstyle="round,pad=0.7",
+                facecolor="lightblue",
+                alpha=0.3,
+                edgecolor="steelblue",
+                linewidth=1.5,
+            ),
         )
 
     # Adjust layout
