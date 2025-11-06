@@ -196,19 +196,26 @@ python main.py extract --re 0.688 --alphas="0,5,10" --profiles "CLARK" --csv cla
 
 ### Filter profiles by performance criteria
 
-The `filter` action is a powerful tool that allows you to select airfoil profiles based on specific aerodynamic performance thresholds. This is particularly useful for aircraft design when you need to identify profiles that meet certain requirements.
+The `--filter` parameter is a powerful tool that allows you to select airfoil profiles based on specific aerodynamic performance thresholds. **Filters work with all actions** (limits, extract, plot, plot-clmax-cli), not as a separate action.
 
 #### Filter Syntax
 
 ```powershell
-python main.py filter --re <reynolds> --filter "parameter operator value" [options]
+python main.py <action> --re <reynolds> --filter "parameter operator value" [options]
 ```
 
 **Basic structure:**
 
-- `--filter` or `-f`: Specifies a filtering criterion (can be used multiple times)
+- `--filter` or `-f`: Specifies a filtering criterion (can be used multiple times with any action)
 - Format: `"parameter operator value"` (always use quotes)
 - Multiple filters are combined with **AND logic** (all criteria must be met)
+
+**Filter behavior by action:**
+
+- **`limits`**: Shows only profiles matching criteria in the limits table
+- **`extract`**: Extracts alpha data only for profiles matching criteria
+- **`plot`**: Plots polar curves only for profiles matching criteria
+- **`plot-clmax-cli`**: Shows only matching profiles in the Clmax vs Cli scatter plot
 
 #### Available Parameters
 
@@ -252,82 +259,82 @@ You can filter by any column from the limits table using either **full names** o
 
 #### Detailed Examples
 
-**Example 1**: Find high-efficiency profiles for cruise
+**Example 1**: List high-efficiency profiles for cruise (limits action)
 
 Find profiles with excellent lift-to-drag ratio at typical cruise Reynolds number:
 
 ```powershell
-python main.py filter --re 0.688 --filter "cl_cd_max > 100"
+python main.py limits --re 0.688 --filter "cl_cd_max > 100"
 ```
 
-**Example 2**: Low-drag profiles with good lift capability
+**Example 2**: Plot only low-drag profiles (plot action)
 
-Find profiles combining low minimum drag with adequate maximum lift:
+Plot profiles combining low minimum drag with adequate maximum lift:
 
 ```powershell
-python main.py filter --re 0.688 --filter "cd_min < 0.006" --filter "cl_max > 1.5"
+python main.py plot --re 0.688 --filter "cd_min < 0.006" --filter "cl_max > 1.5" --out selected_polars.png
 ```
 
-**Example 3**: Profiles optimized for low-speed flight
+**Example 3**: Extract data for low-speed profiles (extract action)
 
-Find profiles with high lift slope and stable pitching moment for low-speed operations:
+Extract specific alpha data for profiles optimized for low-speed operations:
 
 ```powershell
-python main.py filter --re 0.100 --filter "cl_alpha > 6.0" --filter "cm_0 > -0.05" --csv low_speed_profiles.csv
+python main.py extract --re 0.100 --alphas="0,5,10" --filter "cl_alpha > 6.0" --filter "cm_0 > -0.05" --csv low_speed_profiles.csv
 ```
 
-**Example 4**: Moment-stable profiles sorted by efficiency
+**Example 4**: Moment-stable profiles sorted by efficiency (limits action)
 
 Find profiles with stable pitching moment characteristics (near zero cm_0) and rank by efficiency:
 
 ```powershell
-python main.py filter --re 0.500 --filter "cm_0 >= -0.10" --filter "cm_0 <= 0.10" --sort="-Cl/Cd_max"
+python main.py limits --re 0.500 --filter "cm_0 >= -0.10" --filter "cm_0 <= 0.10" --sort="-Cl/Cd_max"
 ```
 
 Alternatively, using the `between` operator for more concise syntax:
 
 ```powershell
-python main.py filter --re 0.500 --filter "cm_0 between -0.10,0.10" --sort="-Cl/Cd_max"
+python main.py limits --re 0.500 --filter "cm_0 between -0.10,0.10" --sort="-Cl/Cd_max"
 ```
 
-**Example 5**: Ultra-efficient profiles with low drag at cl_max
+**Example 5**: Plot Clmax vs Cli for ultra-efficient profiles (plot-clmax-cli action)
 
-Find profiles that maintain low drag even at maximum lift angle:
+Generate a scatter plot showing only profiles that maintain low drag even at maximum lift:
 
 ```powershell
-python main.py filter --re 0.688 --filter "Cl/Cd_max > 150" --filter "Cd @ Cl_max < 0.05"
+python main.py plot-clmax-cli --re 0.688 --filter "Cl/Cd_max > 150" --filter "Cd @ Cl_max < 0.05" --out efficient_profiles.png
 ```
 
-**Example 6**: Search within specific profile families
+**Example 6**: Search within specific profile families (limits action)
 
 Limit search to MH-series profiles and apply performance criteria:
 
 ```powershell
-python main.py filter --re 0.688 --profiles "MH" --filter "Cl/Cd_max > 120" --filter "cd_min < 0.0055"
+python main.py limits --re 0.688 --profiles "MH" --filter "Cl/Cd_max > 120" --filter "cd_min < 0.0055"
 ```
 
-**Example 7**: Complex multi-criteria selection
+**Example 7**: Complex multi-criteria selection with CSV export (limits action)
 
-Find profiles with a specific combination of characteristics:
+Find profiles with a specific combination of characteristics and export to CSV:
 
 ```powershell
-python main.py filter --re 0.688 --filter "cl_alpha > 7.0" --filter "cd_min < 0.006" --filter "cl_cd_max > 100" --filter "cm_0 > -0.05" --sort="-Cl/Cd_max" --csv selected_profiles.csv
+python main.py limits --re 0.688 --filter "cl_alpha > 7.0" --filter "cd_min < 0.006" --filter "cl_cd_max > 100" --filter "cm_0 > -0.05" --sort="-Cl/Cd_max" --csv selected_profiles.csv
 ```
 
-**Example 8**: Profiles with specific angle characteristics
+**Example 8**: Plot profiles with specific angle characteristics (plot action)
 
-Find profiles that reach maximum efficiency at low angles:
+Plot only profiles that reach maximum efficiency at low angles:
 
 ```powershell
-python main.py filter --re 0.688 --filter "cl_cd_max > 120" --filter "alpha_cl_cd_max < 4.0"
+python main.py plot --re 0.688 --filter "cl_cd_max > 120" --filter "alpha_cl_cd_max < 4.0" --out low_angle_efficient.png
 ```
 
-**Example 8b**: Profiles optimized for specific cruise angle
+**Example 9**: Extract data for cruise-optimized profiles (extract action)
 
-Find profiles with cl_ideal (optimal cruise Cl) at low angles of attack:
+Extract alpha values for profiles optimized for specific cruise conditions:
 
 ```powershell
-python main.py filter --re 0.688 --filter "cl_ideal > 0.4" --filter "alpha_cd_min < 2.0" --filter "cl_cd_max > 100"
+python main.py extract --re 0.688 --alphas="2,4,6,8" --filter "cl_ideal > 0.4" --filter "alpha_cd_min < 2.0" --filter "cl_cd_max > 100" --csv cruise_profiles.csv
 ```
 
 **Example 9**: High-lift profiles with controlled stall

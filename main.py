@@ -83,7 +83,7 @@ def main():
     p = argparse.ArgumentParser(description="Tools for XFLR5 polar analysis")
     p.add_argument(
         "action",
-        choices=["plot", "extract", "limits", "filter", "plot-clmax-cli"],
+        choices=["plot", "extract", "limits", "plot-clmax-cli"],
         help="Functionality to execute",
     )
     p.add_argument(
@@ -117,8 +117,8 @@ def main():
         "--filter",
         "-f",
         action="append",
-        help="Filter criteria for 'filter' action. Format: 'parameter operator value' "
-        "(e.g., 'Cl/Cd_max > 100' or 'Cd_min < 0.006'). Can be used multiple times.",
+        help="Filter criteria (available for all actions). Format: 'parameter operator value' "
+        "(e.g., 'Cl/Cd_max > 100' or 'Cd_min < 0.006' or 'cl_i between 0.3,0.8'). Can be used multiple times.",
     )
     p.add_argument(
         "--list-re",
@@ -195,6 +195,28 @@ def main():
 
         df_extract = pd.DataFrame(rows)
 
+        # Apply filters if provided
+        if args.filter:
+            filter_criteria, _ = _parse_filter_criteria(args.filter)
+            if filter_criteria:
+                # Apply filters
+                filtered_df = filter_profiles(
+                    polars_dir=args.polars_dir,
+                    profiles=profiles,
+                    re_filter=args.re,
+                    criteria=filter_criteria,
+                )
+                # Keep only profiles that passed the filter
+                filtered_profiles = set(filtered_df["Profile"].values)
+                df_extract = df_extract[df_extract["Profile"].isin(filtered_profiles)]
+
+                if df_extract.empty:
+                    print("No profiles match the specified criteria.")
+                    return
+                print(
+                    f"Filtered to {len(filtered_profiles)} profile(s) matching criteria"
+                )
+
         if args.csv:
             df_extract.to_csv(args.csv, index=False, encoding="utf-8-sig")
             print(f"Data exported to {args.csv}")
@@ -211,6 +233,23 @@ def main():
             profiles=profiles,
             re_filter=args.re,
         )
+
+        # Apply filters if provided
+        if args.filter:
+            filter_criteria, _ = _parse_filter_criteria(args.filter)
+            if filter_criteria:
+                print(f"Applying filters: {filter_criteria}")
+                df = filter_profiles(
+                    polars_dir=args.polars_dir,
+                    profiles=profiles,
+                    re_filter=args.re,
+                    criteria=filter_criteria,
+                )
+
+                if df.empty:
+                    print("No profiles match the specified criteria.")
+                    return
+                print(f"Found {len(df)} matching profile(s)")
 
         # Apply sorting if requested
         if args.sort:
@@ -232,50 +271,6 @@ def main():
             print(f"Data exported to {args.csv}")
         else:
             print(df.to_string(index=False))
-
-    elif args.action == "filter":
-        if not args.filter:
-            print("Error: --filter criteria required for 'filter' action.")
-            print("Example: --filter 'Cl/Cd_max > 100' --filter 'Cd_min < 0.006'")
-            print("Example with between: --filter 'cl_i between 0.3,0.8'")
-            return
-
-        # Parse filter criteria
-        criteria, _ = _parse_filter_criteria(args.filter)
-
-        if not criteria:
-            print("Error: No valid filter criteria parsed.")
-            return
-
-        print(f"Filtering with criteria: {criteria}")
-        filtered_df = filter_profiles(args.polars_dir, profiles, args.re, criteria)
-
-        if filtered_df.empty:
-            print("No profiles match the specified criteria.")
-            return
-
-        print(f"\nFound {len(filtered_df)} matching profile(s):")
-
-        # Apply sorting if requested
-        if args.sort:
-            sort_col = args.sort
-            ascending = True
-            if sort_col.startswith("-"):
-                ascending = False
-                sort_col = sort_col[1:]
-
-            if sort_col in filtered_df.columns:
-                filtered_df = filtered_df.sort_values(by=sort_col, ascending=ascending)
-            else:
-                print(
-                    f"Warning: Column '{sort_col}' not found. Available columns: {', '.join(filtered_df.columns)}"
-                )
-
-        if args.csv:
-            filtered_df.to_csv(args.csv, index=False, encoding="utf-8-sig")
-            print(f"Results exported to: {args.csv}")
-        else:
-            print(filtered_df.to_string(index=False))
 
 
 if __name__ == "__main__":

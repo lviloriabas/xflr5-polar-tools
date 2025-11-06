@@ -333,7 +333,11 @@ def plot_clmax_vs_clideal(
                 actual_param = COLUMN_ALIASES.get(param, param)
 
             # Apply filter
-            if op == ">":
+            if op == "between":
+                # value is a tuple (min_val, max_val)
+                min_val, max_val = value
+                df = df[(df[actual_param] >= min_val) & (df[actual_param] <= max_val)]
+            elif op == ">":
                 df = df[df[actual_param] > value]
             elif op == ">=":
                 df = df[df[actual_param] >= value]
@@ -465,9 +469,32 @@ def plot_clmax_vs_clideal(
     x_range = df["Cl_i"].max() - df["Cl_i"].min()
     y_range = df["Cl_max"].max() - df["Cl_max"].min()
 
-    # Major ticks every 0.1 or 0.2 depending on range
-    x_major = 0.1 if x_range < 1.5 else 0.2
-    y_major = 0.1 if y_range < 1.5 else 0.2
+    # When filters are active, use finer tick intervals for better precision
+    if filter_criteria:
+        # More granular ticks for zoomed view - X axis with finer detail
+        if x_range < 0.15:
+            x_major = 0.01
+        elif x_range < 0.3:
+            x_major = 0.02
+        elif x_range < 0.6:
+            x_major = 0.025
+        elif x_range < 1.0:
+            x_major = 0.05
+        else:
+            x_major = 0.1
+
+        if y_range < 0.3:
+            y_major = 0.02
+        elif y_range < 0.6:
+            y_major = 0.05
+        elif y_range < 1.0:
+            y_major = 0.1
+        else:
+            y_major = 0.15
+    else:
+        # Standard ticks for full view - X axis more detailed
+        x_major = 0.05 if x_range < 1.0 else 0.1
+        y_major = 0.1 if y_range < 1.5 else 0.2
 
     ax.xaxis.set_major_locator(MultipleLocator(x_major))
     ax.yaxis.set_major_locator(MultipleLocator(y_major))
@@ -531,32 +558,55 @@ def plot_clmax_vs_clideal(
                 latex_op = OPERATOR_LATEX.get(op, op)
                 filter_parts.append(f"{latex_param} {latex_op} {value}")
 
-        filter_text = "Filtros:\n" + "\n".join(filter_parts)
+        filter_text = "Filtros: " + " | ".join(filter_parts)
 
-        # Add filter annotation in upper left corner of the plot
+        # Add filter annotation below the plot, aligned to left edge of axes
         ax.text(
-            0.02,
-            0.98,
+            0.0,
+            -0.15,
             filter_text,
             transform=ax.transAxes,
             ha="left",
             va="top",
-            fontsize=12,
+            fontsize=16,
             bbox=dict(
                 boxstyle="round,pad=0.7",
                 facecolor="lightblue",
-                alpha=0.3,
+                alpha=0.25,
                 edgecolor="steelblue",
                 linewidth=1.5,
             ),
         )
 
-    # Adjust layout
-    fig.tight_layout()
+    # Improve axis precision when filters are active
+    if filter_criteria:
+        # Adjust axis limits to better fit the filtered data with some padding
+        x_min, x_max = df["Cl_i"].min(), df["Cl_i"].max()
+        y_min, y_max = df["Cl_max"].min(), df["Cl_max"].max()
+
+        # Add 5% padding on each side, with minimum padding for very small ranges
+        x_range_calc = x_max - x_min
+        y_range_calc = y_max - y_min
+
+        x_padding = max((x_range_calc) * 0.05, 0.01)
+        y_padding = max((y_range_calc) * 0.05, 0.01)
+
+        ax.set_xlim(x_min - x_padding, x_max + x_padding)
+        ax.set_ylim(y_min - y_padding, y_max + y_padding)
+
+    # Adjust layout with extra space at bottom for filter annotation
+    if filter_display:
+        fig.tight_layout(rect=[0, 0.08, 1, 1])
+    else:
+        fig.tight_layout()
 
     if out_path:
         # High resolution for presentations
-        fig.savefig(out_path, dpi=600, bbox_inches="tight")
+        # Use bbox_inches="tight" with extra padding to avoid cutting the filter box
+        if filter_display:
+            fig.savefig(out_path, dpi=600, bbox_inches="tight", pad_inches=0.2)
+        else:
+            fig.savefig(out_path, dpi=600, bbox_inches="tight")
         print(f"Saved figure to {out_path}")
     else:
         plt.show()
